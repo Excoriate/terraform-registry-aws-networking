@@ -6,3 +6,35 @@ resource "aws_security_group" "this" {
 
   tags = var.tags
 }
+
+resource "aws_security_group_rule" "cidr_based_rule" {
+  for_each          = local.sg_group_rules_to_create_cidr_based
+  type              = each.value["type"]
+  from_port         = each.value["from_port"]
+  to_port           = each.value["to_port"]
+  protocol          = each.value["protocol"]
+  cidr_blocks       = each.value["cidr_blocks"]
+  ipv6_cidr_blocks  = each.value["ipv6_cidr_blocks"]
+  prefix_list_ids   = each.value["prefix_list_ids"]
+  security_group_id = aws_security_group.this[each.value["sg_name"]].id
+}
+
+resource "aws_security_group_rule" "source_sg_based_rule" {
+  for_each                 = local.sg_group_rules_to_create_source_sg_based
+  type                     = each.value["type"]
+  from_port                = each.value["from_port"]
+  to_port                  = each.value["to_port"]
+  protocol                 = each.value["protocol"]
+  source_security_group_id = aws_security_group.this[each.value["source_sg_name"]].id
+  security_group_id        = aws_security_group.this[each.value["sg_name"]].id
+}
+
+resource "aws_security_group_rule" "self_rule" {
+  for_each          = local.sg_group_rules_to_create_to_create_self_based
+  type              = each.value["type"]
+  from_port         = each.value["from_port"]
+  to_port           = each.value["to_port"]
+  protocol          = each.value["protocol"]
+  self              = true
+  security_group_id = aws_security_group.this[each.value["sg_name"]].id
+}

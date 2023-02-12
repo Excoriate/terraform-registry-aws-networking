@@ -27,28 +27,27 @@ attributes are supported:
 
 variable "security_group_rules" {
   type = list(object({
-    sg_name = string
-    sg_rules = list(object({
-      type             = string
-      from_port        = number
-      to_port          = number
-      protocol         = string
-      cidr_blocks      = optional(list(string), null)
-      ipv6_cidr_blocks = optional(list(string), null)
-      prefix_list_ids  = optional(list(string), null)
-      self             = optional(bool, false)
-      description      = optional(string, null)
-    }))
+    sg_parent        = string
+    type             = string
+    from_port        = number
+    to_port          = number
+    protocol         = string
+    cidr_blocks      = optional(list(string), null)
+    ipv6_cidr_blocks = optional(list(string), null)
+    prefix_list_ids  = optional(list(string), null)
+    self             = optional(bool, false)
+    description      = optional(string, null)
   }))
   description = <<EOF
   A list of objects that contains the configuration for the security groups.
 If set, it'll relate the sg_name with the 'name' attribute passed into the
 variable 'security_group_config'. The following attributes are supported:
-- sg_name: The name of the security group.
-- sg_rules: A list of objects that contains the configuration for the security group rules.
+- sg_parent: The name of the security group.
+- sg_rules: An object that contains the configuration for the security group rules.
   EOF
   default     = null
 }
+
 
 variable "vpc_lookup_config" {
   type = object({
@@ -63,5 +62,3 @@ lookup the VPC ID to create the security group in. The following attributes are 
   EOF
   default     = null
 }
-
-
