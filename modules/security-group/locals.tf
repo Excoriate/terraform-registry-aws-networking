@@ -47,8 +47,8 @@ locals {
       self                     = lookup(rule, "self", false)
 
       // Flags, for conflicting parameters. These flags helps to pass to the sg_group_rules_to_create only the valid parameters.
-      is_cidr_blocks_enabled              = lookup(rule, "cidr_blocks", []) != [] ? true : false      // If true, it'll take precedence over the source_security_group_id, and self.
-      is_ipv6_cidr_blocks_enabled         = lookup(rule, "ipv6_cidr_blocks", []) != [] ? true : false // If true, it'll take precedence over the source_security_group_id, and self
+      is_cidr_blocks_enabled              = length(lookup(rule, "cidr_blocks", [])) > 0      // If true, it'll take precedence over the source_security_group_id, and self.
+      is_ipv6_cidr_blocks_enabled         = length(lookup(rule, "ipv6_cidr_blocks", [])) > 0 // If true, it'll take precedence over the source_security_group_id, and self
       is_self_enabled                     = lookup(rule, "self", false) != false ? true : false
       is_source_security_group_id_enabled = lookup(rule, "source_security_group_id", null) != null ? true : false
     }
@@ -61,9 +61,8 @@ locals {
   sg_group_rules_normalised_filtered_cidr = !local.is_security_group_rules_enabled ? [] : [
     for rule in local.sg_group_rules_normalised : rule if rule["is_cidr_blocks_enabled"] == true
   ]
-
-  sg_group_rules_to_create_cidr_based = !local.is_security_group_rules_enabled ? {} : {
-    for rule in local.sg_group_rules_normalised_filtered_cidr : rule["sg_name"] => {
+  sg_group_rules_to_create_cidr_based = !local.is_security_group_rules_enabled ? [] : [
+    for rule in local.sg_group_rules_normalised_filtered_cidr : {
       sg_name          = trimspace(lower(rule["sg_name"]))
       description      = trimspace(rule["description"])
       type             = trimspace(rule["type"])
@@ -74,7 +73,7 @@ locals {
       ipv6_cidr_blocks = rule["ipv6_cidr_blocks"]
       prefix_list_ids  = rule["prefix_list_ids"]
     }
-  }
+  ]
 
   /*
     * SG -> to SG based rules
@@ -84,8 +83,8 @@ locals {
     for rule in local.sg_group_rules_normalised : rule if rule["is_source_security_group_id_enabled"] == true
   ]
 
-  sg_group_rules_to_create_source_sg_based = !local.is_security_group_rules_enabled ? {} : {
-    for rule in local.sg_group_rules_normalised_filtered_source_sg : rule["sg_name"] => {
+  sg_group_rules_to_create_source_sg_based = !local.is_security_group_rules_enabled ? [] : [
+    for rule in local.sg_group_rules_normalised_filtered_source_sg : {
       sg_name                  = trimspace(lower(rule["sg_name"]))
       description              = trimspace(rule["description"])
       type                     = trimspace(rule["type"])
@@ -94,7 +93,8 @@ locals {
       protocol                 = trimspace(rule["protocol"])
       source_security_group_id = rule["source_security_group_id"]
     }
-  }
+  ]
+
 
   /*
     * SG -> Self based rules
@@ -104,8 +104,8 @@ locals {
     for rule in local.sg_group_rules_normalised : rule if rule["is_self_enabled"] == true
   ]
 
-  sg_group_rules_to_create_to_create_self_based = !local.is_security_group_rules_enabled ? {} : {
-    for rule in local.sg_group_rules_normalised_filtered_self : rule["sg_name"] => {
+  sg_group_rules_to_create_to_create_self_based = !local.is_security_group_rules_enabled ? [] : [
+    for rule in local.sg_group_rules_normalised_filtered_self : {
       sg_name     = trimspace(lower(rule["sg_name"]))
       description = trimspace(rule["description"])
       type        = trimspace(rule["type"])
@@ -114,7 +114,7 @@ locals {
       protocol    = trimspace(rule["protocol"])
       self        = rule["self"]
     }
-  }
+  ]
 
   /*
     * Security group lookup options.

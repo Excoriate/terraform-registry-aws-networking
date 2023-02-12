@@ -8,7 +8,7 @@ resource "aws_security_group" "this" {
 }
 
 resource "aws_security_group_rule" "cidr_based_rule" {
-  for_each          = local.sg_group_rules_to_create_cidr_based
+  for_each          = { for k, v in local.sg_group_rules_to_create_cidr_based : k => v }
   type              = each.value["type"]
   from_port         = each.value["from_port"]
   to_port           = each.value["to_port"]
@@ -20,7 +20,7 @@ resource "aws_security_group_rule" "cidr_based_rule" {
 }
 
 resource "aws_security_group_rule" "source_sg_based_rule" {
-  for_each                 = local.sg_group_rules_to_create_source_sg_based
+  for_each                 = { for k, v in local.sg_group_rules_to_create_source_sg_based : k => v }
   type                     = each.value["type"]
   from_port                = each.value["from_port"]
   to_port                  = each.value["to_port"]
@@ -30,7 +30,7 @@ resource "aws_security_group_rule" "source_sg_based_rule" {
 }
 
 resource "aws_security_group_rule" "self_rule" {
-  for_each          = local.sg_group_rules_to_create_to_create_self_based
+  for_each          = { for k, v in local.sg_group_rules_to_create_to_create_self_based : k => v }
   type              = each.value["type"]
   from_port         = each.value["from_port"]
   to_port           = each.value["to_port"]
