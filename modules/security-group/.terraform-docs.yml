@@ -9,10 +9,7 @@ content: |-
     This module provides a way to create a security group with a set of rules.
     * 🚀 A security group, with standard rules.
     * 🚀 A security group, with a set of rules.
-    This module is also capable of looking up for the VPC id if it's not provided. If the variable `vpc_id` is not provided,
-  the module will use the values passed into the input variable 'var.vpc_lookup_config' to look for either the
-  default VPC, or a named VPC using the tag 'Name' as its search criteria. If the VPC is not found, the module will
-    throw an error.
+    This module is also capable of looking up for the VPC id if it's not provided. If the variable `vpc_id` is not provided, the module will use the values passed into the input variable 'var.vpc_lookup_config' to look for either the default VPC, or a named VPC using the tag 'Name' as its search criteria. If the VPC is not found, the module will throw an error.
 
     ---
     ## Example
@@ -24,15 +21,15 @@ content: |-
 
     An example of multiple security groups, created at once:
     ```hcl
-    {{ include "../../examples/security-group/basic/fixtures-multiple-only-sg.tfvars" }}
+    {{ include "../../examples/security-group/basic/config/fixtures-multiple-only-sg.tfvars" }}
     ```
     An example of a security group that's created passing its VPC, as the default VPC:
     ```hcl
-    {{ include "../../examples/security-group/basic/fixtures-with-default-vpc.tfvars" }}
+    {{ include "../../examples/security-group/basic/config/fixtures-with-default-vpc.tfvars" }}
     ```
     An example of a security group that's pointing or looking for a VPC with a specific name:
     ```hcl
-    {{ include "../../examples/security-group/basic/fixtures-with-named-vpc.tfvars" }}
+    {{ include "../../examples/security-group/basic/config/fixtures-with-named-vpc.tfvars" }}
     ```
 
     For module composition, It's recommended to take a look at the module's `outputs` to understand what's available:

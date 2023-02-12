@@ -126,4 +126,269 @@ locals {
   vpc_lookup_name               = !local.is_vpc_named_lookup_enabled ? "" : trimspace(lower(lookup(var.vpc_lookup_config, "vpc_name")))
 
   vpc_looked_up = !local.is_vpc_lookup_enabled ? null : local.is_vpc_default_lookup_enabled ? data.aws_vpc.default[0].id : data.aws_vpc.named[0].id
+
+  /*
+    * Set of OOO (out of the box) security group rules
+    * These are discretionary rules, and are not mandatory.
+  */
+  is_security_group_rules_ooo_enabled = !local.is_security_group_resource_enabled ? false : var.security_group_rules_ooo == null ? false : length(var.security_group_rules_ooo) > 0
+  /*
+    * Set of OOO (out of the box) security group rules
+    * These are discretionary rules, and are not mandatory.
+  */
+
+  // Inbound all traffic
+  security_group_rules_ooo_inbound_all_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_all_inbound_traffic"] == true]
+  security_group_rules_ooo_inbound_all = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_all_filtered : {
+      sg_name     = trimspace(lower(rule["sg_parent"]))
+      description = format("Allow inbound all traffic from %s", rule["sg_parent"])
+      type        = "ingress"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  // Inbound all traffic from source.
+  security_group_rules_ooo_inbound_from_source_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_all_inbound_traffic_from_source"] == true]
+  security_group_rules_ooo_inbound_from_source = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_from_source_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow inbound traffic from %s", rule["sg_parent"])
+      type                     = "ingress"
+      from_port                = 0
+      to_port                  = 0
+      protocol                 = "tcp"
+      source_security_group_id = rule["source_security_group_id"]
+    }
+  ]
+
+  // Inbound HTTP
+  security_group_rules_ooo_inbound_http_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_inbound_http"] == true]
+  security_group_rules_ooo_inbound_http = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_http_filtered : {
+      sg_name     = trimspace(lower(rule["sg_parent"]))
+      description = format("Allow inbound HTTP traffic from %s", rule["sg_parent"])
+      type        = "ingress"
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  // Inbound http from source
+  security_group_rules_ooo_inbound_http_from_source_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_inbound_http_from_source"] == true]
+  security_group_rules_ooo_inbound_http_from_source = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_http_from_source_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow inbound HTTP traffic from %s", rule["sg_parent"])
+      type                     = "ingress"
+      from_port                = 80
+      to_port                  = 80
+      protocol                 = "tcp"
+      source_security_group_id = rule["source_security_group_id"]
+    }
+  ]
+
+  // Inbound HTTPs
+  security_group_rules_ooo_inbound_https_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_inbound_https"] == true]
+  security_group_rules_ooo_inbound_https = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_https_filtered : {
+      sg_name     = trimspace(lower(rule["sg_parent"]))
+      description = format("Allow inbound HTTPS traffic from %s", rule["sg_parent"])
+      type        = "ingress"
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  // Inbound HTTPs from source
+  security_group_rules_ooo_inbound_https_from_source_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_inbound_https_from_source"] == true]
+  security_group_rules_ooo_inbound_https_from_source = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_https_from_source_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow inbound HTTPS traffic from %s", rule["sg_parent"])
+      type                     = "ingress"
+      from_port                = 443
+      to_port                  = 443
+      protocol                 = "tcp"
+      source_security_group_id = rule["source_security_group_id"]
+    }
+  ]
+
+  // Inbound ICMP from an specific source
+  security_group_rules_ooo_inbound_icmp_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_inbound_icmp_from_source"] == true]
+  security_group_rules_ooo_inbound_icmp = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_icmp_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow inbound ICMP traffic from source %s in security group %s", rule["source_security_group_id"], rule["sg_parent"])
+      type                     = "ingress"
+      from_port                = -1
+      to_port                  = -1
+      protocol                 = "icmp"
+      source_security_group_id = rule["source_security_group_id"]
+    }
+  ]
+
+  // Inbound ICMP from any source (anywhere)
+  security_group_rules_ooo_inbound_icmp_any_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_inbound_icmp_from_anywhere"] == true]
+  security_group_rules_ooo_inbound_icmp_any = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_icmp_any_filtered : {
+      sg_name     = trimspace(lower(rule["sg_parent"]))
+      description = format("Allow inbound ICMP traffic from any source in security group %s", rule["sg_parent"])
+      type        = "ingress"
+      from_port   = -1
+      to_port     = -1
+      protocol    = "icmp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  // Inbound SSH from anywhere
+  security_group_rules_ooo_inbound_ssh_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_inbound_ssh_from_anywhere"] == true]
+  security_group_rules_ooo_inbound_ssh = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_ssh_filtered : {
+      sg_name     = trimspace(lower(rule["sg_parent"]))
+      description = format("Allow inbound SSH traffic from anywhere, onto sg %s", rule["sg_parent"])
+      type        = "ingress"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  // Inbound SSH from source
+  security_group_rules_ooo_inbound_ssh_from_source_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_inbound_ssh_from_source"] == true]
+  security_group_rules_ooo_inbound_ssh_from_source = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_ssh_from_source_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow inbound SSH traffic from source %s, onto sg %s", rule["source_security_group_id"], rule["sg_parent"])
+      type                     = "ingress"
+      from_port                = 22
+      to_port                  = 22
+      protocol                 = "tcp"
+      source_security_group_id = rule["source_security_group_id"]
+    }
+  ]
+
+  // Inbound MySQL from source
+  security_group_rules_ooo_inbound_mysql_from_source_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_inbound_mysql_from_source"] == true]
+  security_group_rules_ooo_inbound_mysql_from_source = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_mysql_from_source_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow inbound MySQL traffic from source %s, onto sg %s", rule["source_security_group_id"], rule["sg_parent"])
+      type                     = "ingress"
+      from_port                = 3306
+      to_port                  = 3306
+      protocol                 = "tcp"
+      source_security_group_id = rule["source_security_group_id"]
+    }
+  ]
+
+  // All outbound traffic anywhere
+  security_group_rules_ooo_outbound_all_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_all_outbound_traffic"] == true]
+  security_group_rules_ooo_outbound_all = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_outbound_all_filtered : {
+      sg_name     = trimspace(lower(rule["sg_parent"]))
+      description = format("Allow all outbound traffic from sg %s", rule["sg_parent"])
+      type        = "egress"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  // all outbound traffic to specific source or destination.
+  security_group_rules_ooo_outbound_all_to_source_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_all_outbound_traffic_to_source"] == true]
+  security_group_rules_ooo_outbound_all_to_source = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_outbound_all_to_source_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow all outbound traffic from sg %s to source %s", rule["sg_parent"], rule["source_security_group_id"])
+      type                     = "egress"
+      from_port                = 0
+      to_port                  = 0
+      protocol                 = "tcp"
+      source_security_group_id = rule["source_security_group_id"]
+    }
+  ]
+
+  // Outbound http
+  security_group_rules_ooo_outbound_http_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_outbound_http"] == true]
+  security_group_rules_ooo_outbound_http = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_outbound_http_filtered : {
+      sg_name     = trimspace(lower(rule["sg_parent"]))
+      description = format("Allow outbound HTTP traffic from sg %s", rule["sg_parent"])
+      type        = "egress"
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  // Outbound http to specific source or destination.
+  security_group_rules_ooo_outbound_http_to_source_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_outbound_http_to_source"] == true]
+  security_group_rules_ooo_outbound_http_to_source = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_outbound_http_to_source_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow outbound HTTP traffic from sg %s to source %s", rule["sg_parent"], rule["source_security_group_id"])
+      type                     = "egress"
+      from_port                = 80
+      to_port                  = 80
+      protocol                 = "tcp"
+      source_security_group_id = rule["source_security_group_id"]
+    }
+  ]
+
+  // Outbound https
+  security_group_rules_ooo_outbound_https_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_outbound_https"] == true]
+  security_group_rules_ooo_outbound_https = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_outbound_https_filtered : {
+      sg_name     = trimspace(lower(rule["sg_parent"]))
+      description = format("Allow outbound HTTPS traffic from sg %s", rule["sg_parent"])
+      type        = "egress"
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  // outbound https to specific source or destination
+  security_group_rules_ooo_outbound_https_to_source_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+  for rule in var.security_group_rules_ooo : rule if rule["enable_outbound_https_to_source"] == true]
+  security_group_rules_ooo_outbound_https_to_source = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_outbound_https_to_source_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow outbound HTTPS traffic from sg %s to source %s", rule["sg_parent"], rule["source_security_group_id"])
+      type                     = "egress"
+      from_port                = 443
+      to_port                  = 443
+      protocol                 = "tcp"
+      source_security_group_id = rule["source_security_group_id"]
+    }
+  ]
 }
