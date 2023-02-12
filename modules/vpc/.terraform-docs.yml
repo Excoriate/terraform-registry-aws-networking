@@ -3,7 +3,7 @@ formatter: markdown table
 
 header-from: main.tf
 content: |-
-    # ☁️ AWS VPC modul
+    # ☁️ AWS VPC module
     ## Description
     {{ .Header }}
     This module creates a VPC with the following resources:

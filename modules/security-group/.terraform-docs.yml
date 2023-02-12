@@ -1,0 +1,67 @@
+---
+formatter: markdown table
+
+header-from: main.tf
+content: |-
+    # ☁️ AWS Security Group Module
+    ## Description
+    {{ .Header }}
+    This module provides a way to create a security group with a set of rules.
+    * 🚀 A security group, with standard rules.
+    * 🚀 A security group, with a set of rules.
+    This module is also capable of looking up for the VPC id if it's not provided. If the variable `vpc_id` is not provided,
+  the module will use the values passed into the input variable 'var.vpc_lookup_config' to look for either the
+  default VPC, or a named VPC using the tag 'Name' as its search criteria. If the VPC is not found, the module will
+    throw an error.
+
+    ---
+    ## Example
+    Examples of this module's usage are available in the [examples](./examples) folder.
+
+    ```hcl
+    {{ include "../../examples/security-group/basic/main.tf" }}
+    ```
+
+    An example of multiple security groups, created at once:
+    ```hcl
+    {{ include "../../examples/security-group/basic/fixtures-multiple-only-sg.tfvars" }}
+    ```
+    An example of a security group that's created passing its VPC, as the default VPC:
+    ```hcl
+    {{ include "../../examples/security-group/basic/fixtures-with-default-vpc.tfvars" }}
+    ```
+    An example of a security group that's pointing or looking for a VPC with a specific name:
+    ```hcl
+    {{ include "../../examples/security-group/basic/fixtures-with-named-vpc.tfvars" }}
+    ```
+
+    For module composition, It's recommended to take a look at the module's `outputs` to understand what's available:
+    ```hcl
+    {{ include "outputs.tf" }}
+    ```
+    ---
+
+    ## Module's documentation
+    (This documentation is auto-generated using [terraform-docs](https://terraform-docs.io))
+    {{ .Providers }}
+
+    {{ .Modules }}
+
+    {{ .Resources }}
+
+    {{ .Requirements }}
+
+    {{ .Inputs }}
+
+    {{ .Outputs }}
+
+output:
+    file: README.md
+    mode: inject
+    template: |-
+        <!-- BEGIN_TF_DOCS -->
+        {{ .Content }}
+        <!-- END_TF_DOCS -->
+settings:
+    anchor: true
+    color: true
