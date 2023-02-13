@@ -1,0 +1,48 @@
+---
+formatter: markdown table
+
+header-from: main.tf
+content: |-
+    # ☁️ Target Group
+    ## Description
+    {{ .Header }}
+    This module creates a target group, that can be easily attached into an existing application load balancer, or to any other (supported) type.
+    * 🚀 Creates a target group.
+    * 🚀 Creates a target group attachment.
+    * 🚀 Creates a target group health check.
+    * 🚀 Creates a target group stickiness.
+
+    ---
+    ## Example
+    Examples of this module's usage are available in the [examples](./examples) folder.
+
+    ```hcl
+    {{ include "../../examples/target-group/basic/main.tf" }}
+    ```
+    ```
+    ---
+
+    ## Module's documentation
+    (This documentation is auto-generated using [terraform-docs](https://terraform-docs.io))
+    {{ .Providers }}
+
+    {{ .Modules }}
+
+    {{ .Resources }}
+
+    {{ .Requirements }}
+
+    {{ .Inputs }}
+
+    {{ .Outputs }}
+
+output:
+    file: README.md
+    mode: inject
+    template: |-
+        <!-- BEGIN_TF_DOCS -->
+        {{ .Content }}
+        <!-- END_TF_DOCS -->
+settings:
+    anchor: true
+    color: true
