@@ -26,7 +26,7 @@ variable "target_group_config" {
   type = list(object({
     name                          = string
     port                          = number
-    protocol                      = optional(string, "HTTP")
+    protocol                      = optional(string, "TCP")
     protocol_version              = optional(string, "HTTP1")
     slow_start                    = optional(number, 30)
     deregistration_delay          = optional(number, 15)
