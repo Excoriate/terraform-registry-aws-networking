@@ -1,0 +1,50 @@
+---
+formatter: markdown table
+
+header-from: main.tf
+content: |-
+    # ☁️ Application load balancer listeners.
+    ## Description
+    {{ .Header }}
+    This module creates an application load balancer listener, one or many. It supports the following capabilities
+    * 🚀 Create one or many listeners
+    * 🚀 It creates one or many forward/redirect rules
+    For more information on the AWS Application Load Balancer, see the [AWS documentation](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html).
+    [ ] TODO: Add support for looking up the ALB, when its ARN isn't passed and instead a name (friendly) can be passed.
+    [ ] TODO: Add support for looking up the ALB target group, when its ARN isn't passed and instead a name (friendly) can be passed.
+    [ ] TODO: Add support rules (pending to define whether it'd be better a separated module)
+
+    ---
+    ## Example
+    Examples of this module's usage are available in the [examples](./examples) folder.
+
+    ```hcl
+    {{ include "../../examples/alb-listener/basic/main.tf" }}
+    ```
+    ```
+    ---
+
+    ## Module's documentation
+    (This documentation is auto-generated using [terraform-docs](https://terraform-docs.io))
+    {{ .Providers }}
+
+    {{ .Modules }}
+
+    {{ .Resources }}
+
+    {{ .Requirements }}
+
+    {{ .Inputs }}
+
+    {{ .Outputs }}
+
+output:
+    file: README.md
+    mode: inject
+    template: |-
+        <!-- BEGIN_TF_DOCS -->
+        {{ .Content }}
+        <!-- END_TF_DOCS -->
+settings:
+    anchor: true
+    color: true
