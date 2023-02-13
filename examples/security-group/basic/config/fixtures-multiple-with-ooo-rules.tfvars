@@ -16,10 +16,10 @@ security_group_config = [
 
 security_group_rules_ooo = [
   {
-    sg_parent            = "firewall-test-1"
-    enable_inbound_http  = true
-    enable_inbound_https = true
-    enable_inbound_ssh   = true
+    sg_parent                   = "firewall-test-1"
+    enable_inbound_http         = true
+    enable_inbound_https        = true
+    enable_inbound_ssh          = true
     enable_all_outbound_traffic = true
   }
 ]

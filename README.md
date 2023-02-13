@@ -43,10 +43,11 @@ The documentation is **automatically generated** by [terraform-docs](https://ter
 
 ### Capabilities
 
-| Module               | Status   | Description                                                |
-|----------------------|----------|------------------------------------------------------------|
-| `aws-vpc`            | Stable ✅ | Create a full managed Virtual Private Network              |
-| `aws-security-group` | Stable ✅ | Create security groups, with flexible rules, and OOO rules |
+| Module                          | Status   | Description                                                |
+|---------------------------------|----------|------------------------------------------------------------|
+| `aws-vpc`                       | Stable ✅ | Create a full managed Virtual Private Network              |
+| `aws-security-group`            | Stable ✅ | Create security groups, with flexible rules, and OOO rules |
+| `aws-application-load-balancer` | Stable ✅ | Create an stand-alone application load balancer            |
 
 ### Getting Started
 

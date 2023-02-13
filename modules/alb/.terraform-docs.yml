@@ -1,0 +1,58 @@
+---
+formatter: markdown table
+
+header-from: main.tf
+content: |-
+    # ☁️ AWS Application Load Balancer module
+    ## Description
+    {{ .Header }}
+    This module creates an Application load balancer, following what's described in the following [documentation](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html).
+    This Application load balancer comes without an ALB target-group. In order to attach one, it's recommended that you use the `alb-target-group` module, which is available in this repository.
+    * 🚀 Creates an application load balancer.
+
+    ---
+    ## Example
+    Examples of this module's usage are available in the [examples](./examples) folder.
+
+    ```hcl
+    {{ include "../../examples/alb/basic/main.tf" }}
+    ```
+
+    An example of multiple security groups, created at once:
+    ```hcl
+    {{ include "../../examples/alb/basic/config/fixtures.tfvars" }}
+    ```
+    An example of multiple ALB created at once:
+    ```hcl
+    {{ include "../../examples/alb/basic/config/fixtures-multiple.tfvars" }}
+    ```
+    For module composition, It's recommended to take a look at the module's `outputs` to understand what's available:
+    ```hcl
+    {{ include "outputs.tf" }}
+    ```
+    ---
+
+    ## Module's documentation
+    (This documentation is auto-generated using [terraform-docs](https://terraform-docs.io))
+    {{ .Providers }}
+
+    {{ .Modules }}
+
+    {{ .Resources }}
+
+    {{ .Requirements }}
+
+    {{ .Inputs }}
+
+    {{ .Outputs }}
+
+output:
+    file: README.md
+    mode: inject
+    template: |-
+        <!-- BEGIN_TF_DOCS -->
+        {{ .Content }}
+        <!-- END_TF_DOCS -->
+settings:
+    anchor: true
+    color: true

@@ -41,16 +41,16 @@ attributes are supported:
 
 variable "security_group_rules" {
   type = list(object({
-    sg_parent        = string
-    type             = string
-    from_port        = number
-    to_port          = number
-    protocol         = string
-    cidr_blocks      = optional(list(string), null)
-    ipv6_cidr_blocks = optional(list(string), null)
-    prefix_list_ids  = optional(list(string), null)
-    self             = optional(bool, false)
-    description      = optional(string, "no description")
+    sg_parent                = string
+    type                     = string
+    from_port                = number
+    to_port                  = number
+    protocol                 = string
+    cidr_blocks              = optional(list(string), null)
+    ipv6_cidr_blocks         = optional(list(string), null)
+    prefix_list_ids          = optional(list(string), null)
+    self                     = optional(bool, false)
+    description              = optional(string, "no description")
     source_security_group_id = optional(string, null)
   }))
   description = <<EOF
