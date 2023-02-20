@@ -19,7 +19,6 @@ content: |-
     ```hcl
     {{ include "../../examples/target-group/basic/main.tf" }}
     ```
-    ```
     ---
 
     ## Module's documentation

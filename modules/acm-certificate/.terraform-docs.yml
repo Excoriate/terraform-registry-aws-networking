@@ -18,7 +18,6 @@ content: |-
     ```hcl
     {{ include "../../examples/acm-certificate/basic/main.tf" }}
     ```
-    ```
     ---
 
     ## Module's documentation

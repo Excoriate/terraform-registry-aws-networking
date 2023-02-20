@@ -20,7 +20,6 @@ module "main_module" {
   acm_certificate_config = var.acm_certificate_config
 }
 ```
-```
 ---
 
 ## Module's documentation

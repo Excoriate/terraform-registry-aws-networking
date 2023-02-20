@@ -17,7 +17,6 @@ content: |-
     ```hcl
     {{ include "../../examples/alb/basic/main.tf" }}
     ```
-
     An example of multiple security groups, created at once:
     ```hcl
     {{ include "../../examples/alb/basic/config/fixtures.tfvars" }}

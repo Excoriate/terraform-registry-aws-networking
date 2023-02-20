@@ -21,7 +21,6 @@ content: |-
     ```hcl
     {{ include "../../examples/alb-listener/basic/main.tf" }}
     ```
-    ```
     ---
 
     ## Module's documentation
