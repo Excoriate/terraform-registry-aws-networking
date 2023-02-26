@@ -8,7 +8,8 @@ locals {
    * Control flags
    * Currently, there are two options allowed: hosted zones, and subdomains (hosted zones with NS records).
   */
-  is_hosted_zone_stand_alone_enabled = !var.is_enabled ? false : var.hosted_zone_stand_alone == null ? false : length(var.hosted_zone_stand_alone) != 0
+  is_hosted_zone_stand_alone_enabled  = !var.is_enabled ? false : var.hosted_zone_stand_alone == null ? false : length(var.hosted_zone_stand_alone) != 0
+  is_hosted_zone_name_servers_enabled = !var.is_enabled ? false : !local.is_hosted_zone_stand_alone_enabled ? false : var.hosted_zone_stand_alone_name_servers == null ? false : length(var.hosted_zone_stand_alone_name_servers) != 0
 
   hosted_zones_stand_alone_normalised = !local.is_hosted_zone_stand_alone_enabled ? [] : [
     for zone in var.hosted_zone_stand_alone : {
@@ -24,6 +25,24 @@ locals {
       is_vpc_config_enabled = zone["vpc"] == null ? false : zone["vpc"]["vpc_id"] == null ? false : zone["vpc"]["vpc_id"] != ""
     }
   ]
+
+  hosted_zone_stand_alone_name_severs = !local.is_hosted_zone_name_servers_enabled ? [] : [
+    for zone in var.hosted_zone_stand_alone_name_servers : {
+      hosted_zone_name = lower(trimspace(zone["hosted_zone_name"]))
+      record_name      = lower(trimspace(zone["record_name"]))
+      name_servers     = zone["name_servers"] == null ? [] : [for ns in zone["name_servers"] : lower(trimspace(ns))]
+      ttl              = zone["ttl"] == null ? 300 : zone["ttl"]
+    }
+  ]
+
+  hosted_zone_stand_alone_name_servers_to_create = !local.is_hosted_zone_name_servers_enabled ? {} : {
+    for zone in local.hosted_zone_stand_alone_name_severs : zone["hosted_zone_name"] => {
+      zone    = zone["hosted_zone_name"]
+      records = zone["name_servers"]
+      name    = zone["record_name"]
+      ttl     = zone["ttl"]
+    }
+  }
 
   hosted_zone_config_to_create = !local.is_hosted_zone_stand_alone_enabled ? {} : {
     for zone in local.hosted_zones_stand_alone_normalised : zone["name"] => {

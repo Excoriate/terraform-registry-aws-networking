@@ -50,6 +50,24 @@ variable "hosted_zone_stand_alone" {
 EOF
 }
 
+variable "hosted_zone_stand_alone_name_servers" {
+  type = list(object({
+    hosted_zone_name = string,
+    name_servers     = list(string)
+    record_name      = string
+    ttl              = optional(number, 90)
+  }))
+  default     = null
+  description = <<EOF
+A list of name servers (NS) records that will be created, as part o the stand-alone hosted zones.
+Each object must contain the following attributes:
+- record_name: The name of the NS record.
+- hosted_zone_name: The name of the hosted zone to create the NS records.
+- name_servers: A list of name servers to delegate the zone to.
+- ttl: (Optional) The TTL for the NS records.
+EOF
+}
+
 variable "hosted_zone_subdomains_parent" {
   type = object({
     name              = string
