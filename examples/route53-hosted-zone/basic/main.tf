@@ -3,6 +3,7 @@ module "main_module" {
   is_enabled = var.is_enabled
   aws_region = var.aws_region
 
-  hosted_zone_config     = var.hosted_zone_config
-  hosted_zone_subdomains = var.hosted_zone_subdomains
+  hosted_zone_stand_alone       = var.hosted_zone_stand_alone
+  hosted_zone_subdomains_parent = var.hosted_zone_subdomains_parent
+  hosted_zone_subdomains_childs = var.hosted_zone_subdomains_childs
 }

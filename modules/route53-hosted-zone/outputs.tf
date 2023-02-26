@@ -18,17 +18,62 @@ output "tags_set" {
 Custom outputs
 -------------------------------------
 */
-output "hosted_zone_name" {
-  value       = [for z in aws_route53_zone.this : z.name]
-  description = "The name of the hosted zone."
+output "feature_flag_hosted_zone_stand_alone_enabled" {
+  value       = local.is_hosted_zone_stand_alone_enabled
+  description = "Whether the feature flag for the stand alone hosted zone is enabled or not."
 }
 
-output "hosted_zone_id" {
-  value       = [for z in aws_route53_zone.this : z.zone_id]
-  description = "The ID of the hosted zone."
+output "feature_flag_hosted_zone_subdomains_parent_enabled" {
+  value       = local.is_hosted_zone_subdomains_parent_set
+  description = "Whether the feature flag for the stand alone hosted zone is enabled or not."
 }
 
-output "hosted_zone_name_servers" {
-  value       = [for z in aws_route53_zone.this : z.name_servers]
-  description = "A list of name servers in associated (or default) delegation set."
+output "feature_flag_hosted_zone_subdomains_childs_enabled" {
+  value       = local.is_hosted_zone_subdomains_childs_set
+  description = "Whether the feature flag for the stand alone hosted zone is enabled or not."
+}
+
+output "hosted_zone_stand_alone_id" {
+  value       = [for z in aws_route53_zone.hosted_zone : z.zone_id]
+  description = "The ID of the stand alone hosted zone."
+}
+
+output "hosted_zone_stand_alone_name" {
+  value       = [for z in aws_route53_zone.hosted_zone : z.name]
+  description = "The Name of the stand alone hosted zone."
+}
+
+output "hosted_zone_stand_alone_name_servers" {
+  value       = [for z in aws_route53_zone.hosted_zone : z.name_servers]
+  description = "The name servers of the stand alone hosted zone."
+}
+
+output "hosted_zone_subdomains_parent_id" {
+  value       = [for z in aws_route53_zone.hosted_zone_subdomain_parent : z.zone_id]
+  description = "The ID of the parent hosted zone for the subdomains."
+}
+
+output "hosted_zone_subdomains_parent_name" {
+  value       = [for z in aws_route53_zone.hosted_zone_subdomain_parent : z.name]
+  description = "The Name of the parent hosted zone for the subdomains."
+}
+
+output "hosted_zone_subdomains_parent_name_servers" {
+  value       = [for z in aws_route53_zone.hosted_zone_subdomain_parent : z.name_servers]
+  description = "The name servers of the parent hosted zone for the subdomains."
+}
+
+output "hosted_zone_subdomains_childs_id" {
+  value       = [for z in aws_route53_zone.hosted_zone_subdomain_child : z.zone_id]
+  description = "The ID of the child hosted zone for the subdomains."
+}
+
+output "hosted_zone_subdomains_childs_name" {
+  value       = [for z in aws_route53_zone.hosted_zone_subdomain_child : z.name]
+  description = "The Name of the child hosted zone for the subdomains."
+}
+
+output "hosted_zone_subdomains_childs_name_servers" {
+  value       = [for z in aws_route53_zone.hosted_zone_subdomain_child : z.name_servers]
+  description = "The name servers of the child hosted zone for the subdomains."
 }

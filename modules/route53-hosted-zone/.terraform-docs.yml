@@ -7,7 +7,8 @@ content: |-
     ## Description
     {{ .Header }}
     This module creates a Route 53 hosted zone
-    * 🚀 Create a Route 53 hosted zone
+    * 🚀 Create a Route 53 hosted zone, in a stand-alone fashion. It means, it just create a single hosted zone, with all its default settings.
+    * 🚀 Create a Route 53 hosted zone, with subdomains, and proper NS records. It's able o create multiple subdomains that belongs to a single parent hosted zone. In other words, multiple subdomains.
     For more information about this resource, please refer to its official documentation in: [AWS Route 53](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_zone)
 
     ---
@@ -21,6 +22,10 @@ content: |-
     {{ include "../../examples/route53-hosted-zone/basic/config/fixtures.tfvars" }}
     ```
 
+    This example covers the case when multiple subdomains are required, linked to a single parent hosted zone.
+    ```hcl
+    {{ include "../../examples/route53-hosted-zone/basic/config/fixtures-with-subdomains.tfvars" }}
+    ```
     Example of a configuration that also creates subdomains, with proper NS records.
 
     ```hcl
