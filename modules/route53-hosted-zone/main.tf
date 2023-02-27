@@ -20,7 +20,7 @@ resource "aws_route53_zone" "hosted_zone" {
 
 resource "aws_route53_record" "hosted_zone_stand_alone_name_servers" {
   for_each = local.hosted_zone_stand_alone_name_servers_to_create
-  zone_id  = aws_route53_zone.hosted_zone[each.key].zone_id
+  zone_id  = aws_route53_zone.hosted_zone[each.value["zone"]].zone_id
   name     = each.value["name"]
   type     = "NS"
   ttl      = each.value["ttl"]

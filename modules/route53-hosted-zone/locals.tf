@@ -36,7 +36,7 @@ locals {
   ]
 
   hosted_zone_stand_alone_name_servers_to_create = !local.is_hosted_zone_name_servers_enabled ? {} : {
-    for zone in local.hosted_zone_stand_alone_name_severs : zone["hosted_zone_name"] => {
+    for zone in local.hosted_zone_stand_alone_name_severs : zone["record_name"] => {
       zone    = zone["hosted_zone_name"]
       records = zone["name_servers"]
       name    = zone["record_name"]
