@@ -5,6 +5,10 @@ resource "aws_acm_certificate" "this" {
   subject_alternative_names = each.value["subject_alternative_names"]
 
   tags = var.tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_acm_certificate_validation" "this" {
