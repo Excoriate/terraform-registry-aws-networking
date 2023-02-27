@@ -24,7 +24,7 @@ resource "aws_route53_record" "hosted_zone_stand_alone_name_servers" {
   name     = each.value["name"]
   type     = "NS"
   ttl      = each.value["ttl"]
-  records  = each.value["records"]
+  records  = each.value["records"] == null ? [] : length(each.value["records"]) == 0 ? aws_route53_zone.hosted_zone[each.value["zone"]].name_servers : each.value["records"]
 }
 
 /*
