@@ -31,7 +31,7 @@ locals {
       hosted_zone_name = lower(trimspace(zone["hosted_zone_name"]))
       record_name      = lower(trimspace(zone["record_name"]))
       name_servers     = zone["name_servers"] == null ? [] : [for ns in zone["name_servers"] : lower(trimspace(ns))]
-      ttl              = zone["ttl"] == null ? 300 : zone["ttl"]
+      ttl              = zone["ttl"] == null ? 30 : zone["ttl"]
     }
   ]
 
@@ -91,7 +91,7 @@ locals {
       comment           = zone["comment"] == null ? "Managed by terraform. Subdomain DNS zone." : zone["comment"]
       force_destroy     = zone["force_destroy"] == null ? false : zone["force_destroy"]
       delegation_set_id = zone["delegation_set_id"] == null ? null : zone["delegation_set_id"]
-      ttl               = zone["ttl"] == null ? 90 : zone["ttl"]
+      ttl               = zone["ttl"] == null ? 30 : zone["ttl"]
       vpc = zone["vpc"] == null ? {} : {
         vpc_id     = zone["vpc"]["vpc_id"] == null ? null : zone["vpc"]["vpc_id"]
         vpc_region = zone["vpc"]["vpc_region"] == null ? null : zone["vpc"]["vpc_region"]
