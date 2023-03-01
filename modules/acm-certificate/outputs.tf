@@ -52,3 +52,12 @@ output "acm_zone_by_zone_name" {
   value       = [for zone in data.aws_route53_zone.lookup_for_zone_name : zone.name]
   description = "The name of the hosted zone, when the zone_name lookup option is enabled."
 }
+
+output "feature_flags" {
+  value = {
+    is_validation_enabled  = local.is_certificate_validation_enabled
+    is_enabled             = local.is_certificate_enabled
+    acm_validation_object  = local.acm_validation_to_create
+    acm_certificate_object = local.acm_cert_to_create
+  }
+}

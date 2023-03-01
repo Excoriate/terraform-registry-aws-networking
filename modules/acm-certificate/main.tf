@@ -12,21 +12,17 @@ resource "aws_acm_certificate" "this" {
 }
 
 resource "aws_acm_certificate_validation" "this" {
-  for_each                = local.acm_cert_to_validate
+  for_each                = local.acm_validation_to_create
   certificate_arn         = aws_acm_certificate.this[each.value["name"]].arn
   validation_record_fqdns = [for record in aws_route53_record.this : record.fqdn]
 }
 
 resource "aws_route53_record" "this" {
-  for_each = { for dvo in local.acm_cert_to_validate : dvo["domain_name"] => {
-    name   = dvo["resource_record_name"]
-    type   = dvo["resource_record_type"]
-    record = dvo["resource_record_value"]
-  } }
+  for_each        = local.acm_validation_to_create
   zone_id         = each.value["zone_id"]
   ttl             = each.value["ttl"]
   allow_overwrite = true
-  name            = each.value.name
-  type            = each.value.type
-  records         = [each.value.record]
+  name            = each.value["dvo"][each.value["domain_name"]]["name"]
+  type            = each.value["dvo"][each.value["domain_name"]]["type"]
+  records         = each.value["dvo"][each.value["domain_name"]]["records"]
 }

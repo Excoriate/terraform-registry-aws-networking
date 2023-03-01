@@ -47,3 +47,7 @@ output "acm_zone_by_zone_name" {
   value       = module.main_module.acm_zone_by_zone_name
   description = "The name of the hosted zone, when the zone_name lookup option is enabled."
 }
+
+output "feature_flags" {
+  value = module.main_module.feature_flags
+}

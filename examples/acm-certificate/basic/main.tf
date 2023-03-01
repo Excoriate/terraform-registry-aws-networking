@@ -4,4 +4,5 @@ module "main_module" {
   aws_region = var.aws_region
 
   acm_certificate_config = var.acm_certificate_config
+  acm_validation_config  = var.acm_validation_config
 }

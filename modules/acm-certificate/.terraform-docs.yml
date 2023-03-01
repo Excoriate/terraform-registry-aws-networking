@@ -18,6 +18,12 @@ content: |-
     ```hcl
     {{ include "../../examples/acm-certificate/basic/main.tf" }}
     ```
+
+
+    It also supports validations. Ensure that the `domain_name` and the certificate `name` are consistent
+    ```hcl
+    {{ include "../../examples/acm-certificate/basic/config/fixtures-with-validation.tfvars" }}
+    ```
     ---
 
     ## Module's documentation
