@@ -53,6 +53,7 @@ The documentation is **automatically generated** by [terraform-docs](https://ter
 | `aws-acm-certificates`    | Stable ✅ | Provision one or many AWS Certificates. Includes optionally the `validation` capability. |
 | `aws-route53-zone`        | Stable ✅ | Provision a DNS hosted zone.                                                             |
 | `aws-route53-dns-records` | Stable ✅ | Provision a DNS record of different types. Currently supported, type A.                  |
+| `target-group-attacher`   | Stable ✅ | Handy module that attach a backend with a target group E.g.: ALB).                       |
 
 ### Getting Started
 
