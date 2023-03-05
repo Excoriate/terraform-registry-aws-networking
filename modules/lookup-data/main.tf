@@ -48,7 +48,7 @@ data "aws_subnet_ids" "all_subnet_ids" {
 }
 
 data "aws_subnet" "all_subnets" {
-  for_each = values({ for k, v in data.aws_subnet_ids.all_subnet_ids : k => v["ids"] })[0]
+  for_each = length(keys(local.subnet_all_fetch)) > 0 ? values({ for k, v in data.aws_subnet_ids.all_subnet_ids : k => v["ids"] })[0] : {}
   id       = each.value
 
   depends_on = [
