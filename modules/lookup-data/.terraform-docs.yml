@@ -1,0 +1,66 @@
+---
+formatter: markdown table
+
+header-from: main.tf
+content: |-
+    # ☁️ Networking lookup data.
+    ## Description
+    {{ .Header }}
+    This module lookup for specific values, like VPCs, subnets, etc. Initially, this module supports:
+    - Lookup for a VPC. It retrieves all its object content.
+    - Lookup for a subnet. It retrieves all its object content.
+    - Lookup selectively by 'private' or 'public' subnets.
+
+    ---
+    ## Example
+    Examples of this module's usage are available in the [examples](./examples) folder.
+
+    ```hcl
+    {{ include "../../examples/lookup-data/basic/main.tf" }}
+    ```
+    ---
+
+    Here there are some examples, and fixtures that shows how to use this module.
+    Basic example
+    ```hcl
+    {{ include "../../examples/lookup-data/basic/config/fixtures.tfvars" }}
+    ```
+
+    Retrieving subnets
+    ```hcl
+      {{ include "../../examples/lookup-data/basic/config/fixtures-fetch-all-subnets.tfvars" }}
+    ```
+
+    Retrieving subnets selectively
+    ```hcl
+      {{ include "../../examples/lookup-data/basic/config/fixtures-fetch-private-subnets.tfvars" }}
+    ```
+
+    ```hcl
+      {{ include "../../examples/lookup-data/basic/config/fixtures-fetch-public-subnets.tfvars" }}
+    ```
+
+    ## Module's documentation
+    (This documentation is auto-generated using [terraform-docs](https://terraform-docs.io))
+    {{ .Providers }}
+
+    {{ .Modules }}
+
+    {{ .Resources }}
+
+    {{ .Requirements }}
+
+    {{ .Inputs }}
+
+    {{ .Outputs }}
+
+output:
+    file: README.md
+    mode: inject
+    template: |-
+        <!-- BEGIN_TF_DOCS -->
+        {{ .Content }}
+        <!-- END_TF_DOCS -->
+settings:
+    anchor: true
+    color: true

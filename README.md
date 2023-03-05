@@ -54,14 +54,11 @@ The documentation is **automatically generated** by [terraform-docs](https://ter
 | `aws-route53-zone`        | Stable ✅ | Provision a DNS hosted zone.                                                             |
 | `aws-route53-dns-records` | Stable ✅ | Provision a DNS record of different types. Currently supported, type A.                  |
 | `target-group-attacher`   | Stable ✅ | Handy module that attach a backend with a target group E.g.: ALB).                       |
+| `lookup-data`             | Stable ✅ | Module that lookup for network-related data.                                             |
 
 ### Getting Started
 
 Check the example recipes 🥗 [here](examples)
-
-### Roadmap
-
-- [ ] Add support for SCP.
 
 ### Module standard structure
 
