@@ -9,9 +9,12 @@ locals {
    - Control each specific rule configuration.
    - Control each specific condition configuration.
   */
-  is_enabled             = !var.is_enabled ? false : var.listener_rules_config == null ? false : length(var.listener_rules_config) > 0
-  is_action_redirect_set = !local.is_enabled ? false : var.action_redirect_config == null ? false : length(var.action_redirect_config) > 0
-  are_conditions_set     = !local.is_enabled ? false : var.conditions_config == null ? false : length(var.conditions_config) > 0
+  is_enabled                         = !var.is_enabled ? false : var.listener_rules_config == null ? false : length(var.listener_rules_config) > 0
+  is_action_redirect_set             = !local.is_enabled ? false : var.action_redirect_config == null ? false : length(var.action_redirect_config) > 0
+  is_action_forward_set              = !local.is_enabled ? false : var.action_forward_config == null ? false : length(var.action_forward_config) > 0
+  is_action_fixed_response_set       = !local.is_enabled ? false : var.action_fixed_response_config == null ? false : length(var.action_fixed_response_config) > 0
+  is_action_authenticate_cognito_set = !local.is_enabled ? false : var.action_authenticate_cognito_config == null ? false : length(var.action_authenticate_cognito_config) > 0
+  are_conditions_set                 = !local.is_enabled ? false : var.conditions_config == null ? false : length(var.conditions_config) > 0
 
   // Main configuration that'll be merged with specific rules and conditions accordingly.
   parent_config = !local.is_enabled ? [] : [
@@ -19,15 +22,17 @@ locals {
       name         = lower(trimspace(config.name))
       listener_arn = trimspace(config.listener_arn)
       priority     = config["priority"] == null ? null : config["priority"]
+      type         = config["type"] == null ? "forward" : trimspace(config["type"])
     }
   ]
-
-  parent_config_to_create = !local.is_enabled ? {} : {
-    for config in local.parent_config : config["name"] => config
+  parent_config_to_create = !local.is_enabled ? {} : { for config in local.parent_config : config["name"] => config
   }
 
   /*
-   * Rule configuration
+   * Rules configuration
+   * ------------------------------------
+   * Rule/Action: redirection
+   * ------------------------------------
   */
   action_redirect_normalised = !local.is_action_redirect_set ? [] : [
     for action in var.action_redirect_config : {
@@ -48,6 +53,38 @@ locals {
 
   action_redirect_to_create = !local.is_action_redirect_set ? {} : {
     for action in local.action_redirect_normalised : action["name"] => action
+  }
+
+  /*
+   * Rules configuration
+   * ------------------------------------
+   * Rule/Action: forward
+   * ------------------------------------
+  */
+  action_forward_normalised = !local.is_action_forward_set ? [] : [
+    for action in var.action_forward_config : {
+      name = lower(trimspace(action.name))
+      type = "forward"
+      rules = [
+        for rule in action.rules : {
+          target_group_arn = rule["target_group_arn"] == null ? null : trimspace(rule["target_group_arn"])
+          stickiness = rule["stickiness"] == null ? null : {
+            duration = rule["stickiness"]["duration"] == null ? null : trimspace(rule["stickiness"]["duration"])
+            enabled  = rule["stickiness"]["enabled"] == null ? null : rule["stickiness"]["enabled"]
+          }
+          target_group = rule["target_group"] == null ? [] : [
+            for tg in rule["target_group"] : {
+              arn    = tg["arn"] == null ? null : trimspace(tg["arn"])
+              weight = tg["weight"] == null ? null : trimspace(tg["weight"])
+            }
+          ]
+        }
+      ]
+    }
+  ]
+
+  action_forward_to_create = !local.is_action_forward_set ? {} : {
+    for action in local.action_forward_normalised : action["name"] => action
   }
 
   /*

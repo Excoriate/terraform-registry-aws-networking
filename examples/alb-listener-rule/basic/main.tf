@@ -7,6 +7,7 @@ module "main_module" {
     name         = "test"
     listener_arn = aws_alb_listener.alb_listener.arn
     priority     = 1
+    type         = "forward"
   }]
 
   action_redirect_config             = var.action_redirect_config

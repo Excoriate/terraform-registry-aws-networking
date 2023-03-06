@@ -4,6 +4,7 @@ is_enabled = true
 action_redirect_config = [
   {
     name = "test"
+    type = "redirect"
     // actual rules to apply
     rules = [
       {

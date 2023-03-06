@@ -27,6 +27,7 @@ variable "listener_rules_config" {
     name         = string
     listener_arn = string
     priority     = optional(number, null)
+    type         = optional(string, "forward")
   }))
   description = <<EOF
   A list of objects that contains the configuration for the listener rules.
@@ -34,6 +35,7 @@ variable "listener_rules_config" {
   - name: The name of the listener rule.
   - listener_arn: The ARN of the listener to which the rule is associated.
   - priority: The priority for the rule. This must be unique for each rule in the same listener.
+  - type: The type of action. Valid values are forward, authenticate-cognito, authenticate-oidc, redirect, fixed-response.
   EOF
   default     = null
 }
@@ -75,8 +77,8 @@ variable "action_forward_config" {
         enabled  = optional(bool, null)
       }), null)
       target_group = optional(list(object({
-        target_group_arn = optional(string, null)
-        weight           = optional(number, null)
+        arn    = optional(string, null)
+        weight = optional(number, null)
       })), null)
     }))
   }))

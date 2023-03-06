@@ -1,21 +1,21 @@
 aws_region = "us-east-1"
 is_enabled = true
 
-action_redirect_config = [
+action_forward_config = [
   {
     name = "test"
-    type = "redirect"
-    // actual rules to apply
     rules = [
       {
-        redirect_config = {
-          host        = "www.example.com"
-          path        = "/new_path"
-          port        = "443"
-          protocol    = "HTTPS"
-          query       = "query=parameter"
-          status_code = "HTTP_301"
-        }
+        target_group = [
+          {
+            arn    = "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/my-targets/73e2d6bc24d8a067"
+            weight = 1
+          },
+          {
+            arn    = "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/my-other-targets/73e2d6bc24d8a067"
+            weight = 1
+          }
+        ]
       }
     ]
   }
