@@ -20,6 +20,25 @@ content: |-
     {{ include "../../examples/alb-listener-rule/basic/main.tf" }}
     ```
     ---
+    Simple example:
+    ```hcl
+    {{ include "../../examples/alb-listener-rule/basic/config/fixtures.tfvars" }}
+    ```
+
+    Example of multiple conditions
+    ```hcl
+    {{ include "../../examples/alb-listener-rule/basic/config/fixtures-multiple-conditions.tfvars" }}
+    ```
+
+    Example of forward rule configuration:
+    ```hcl
+    {{ include "../../examples/alb-listener-rule/basic/config/fixtures-forward-rule.tfvars" }}
+    ```
+
+    Example of fixed response configuration:
+    ```hcl
+    {{ include "../../examples/alb-listener-rule/basic/config/fixtures-fixed-response.tfvars" }}
+    ```
 
     ## Module's documentation
     (This documentation is auto-generated using [terraform-docs](https://terraform-docs.io))

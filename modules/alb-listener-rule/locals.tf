@@ -9,12 +9,12 @@ locals {
    - Control each specific rule configuration.
    - Control each specific condition configuration.
   */
-  is_enabled                         = !var.is_enabled ? false : var.listener_rules_config == null ? false : length(var.listener_rules_config) > 0
-  is_action_redirect_set             = !local.is_enabled ? false : var.action_redirect_config == null ? false : length(var.action_redirect_config) > 0
-  is_action_forward_set              = !local.is_enabled ? false : var.action_forward_config == null ? false : length(var.action_forward_config) > 0
-  is_action_fixed_response_set       = !local.is_enabled ? false : var.action_fixed_response_config == null ? false : length(var.action_fixed_response_config) > 0
-  is_action_authenticate_cognito_set = !local.is_enabled ? false : var.action_authenticate_cognito_config == null ? false : length(var.action_authenticate_cognito_config) > 0
-  are_conditions_set                 = !local.is_enabled ? false : var.conditions_config == null ? false : length(var.conditions_config) > 0
+  is_enabled                   = !var.is_enabled ? false : var.listener_rules_config == null ? false : length(var.listener_rules_config) > 0
+  is_action_redirect_set       = !local.is_enabled ? false : var.action_redirect_config == null ? false : length(var.action_redirect_config) > 0
+  is_action_forward_set        = !local.is_enabled ? false : var.action_forward_config == null ? false : length(var.action_forward_config) > 0
+  is_action_fixed_response_set = !local.is_enabled ? false : var.action_fixed_response_config == null ? false : length(var.action_fixed_response_config) > 0
+  #  is_action_authenticate_cognito_set = !local.is_enabled ? false : var.action_authenticate_cognito_config == null ? false : length(var.action_authenticate_cognito_config) > 0
+  are_conditions_set = !local.is_enabled ? false : var.conditions_config == null ? false : length(var.conditions_config) > 0
 
   // Main configuration that'll be merged with specific rules and conditions accordingly.
   parent_config = !local.is_enabled ? [] : [
@@ -54,6 +54,31 @@ locals {
   action_redirect_to_create = !local.is_action_redirect_set ? {} : {
     for action in local.action_redirect_normalised : action["name"] => action
   }
+
+  /*
+   * Rules configuration
+   * ------------------------------------
+   * Rule/Action: fixed response
+   * ------------------------------------
+  */
+  action_fixed_response_normalised = !local.is_action_fixed_response_set ? [] : [
+    for action in var.action_fixed_response_config : {
+      name = lower(trimspace(action.name))
+      type = "fixed-response"
+      rules = [
+        for rule in action.rules : {
+          content_type = rule["content_type"] == null ? null : trimspace(rule["content_type"])
+          message_body = rule["message_body"] == null ? null : trimspace(rule["message_body"])
+          status_code  = rule["status_code"] == null ? null : trimspace(rule["status_code"])
+        }
+      ]
+    }
+  ]
+
+  action_fixed_response_to_create = !local.is_action_fixed_response_set ? {} : {
+    for action in local.action_fixed_response_normalised : action["name"] => action
+  }
+
 
   /*
    * Rules configuration

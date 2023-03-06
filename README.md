@@ -49,7 +49,8 @@ The documentation is **automatically generated** by [terraform-docs](https://ter
 | `aws-security-group`      | Stable ✅ | Create security groups, with flexible rules, and OOO rules                               |
 | `aws-alb`                 | Stable ✅ | Create an stand-alone application load balancer                                          |
 | `aws-target-groups`       | Stable ✅ | Create one or many target groups. Currently support ALB                                  |
-| `aws-alb-listeners`       | Stable ✅ | Create a set of listeners, that applies for an existing ALB and specified target groupd  |
+| `aws-alb-listeners`       | Stable ✅ | Create a set of listeners, that applies for an existing ALB and specified target group   |
+| `aws-alb-listeners-rules` | Stable ✅ | Create a set of rules to apply on top of ALB listeners.                                  |
 | `aws-acm-certificates`    | Stable ✅ | Provision one or many AWS Certificates. Includes optionally the `validation` capability. |
 | `aws-route53-zone`        | Stable ✅ | Provision a DNS hosted zone.                                                             |
 | `aws-route53-dns-records` | Stable ✅ | Provision a DNS record of different types. Currently supported, type A.                  |

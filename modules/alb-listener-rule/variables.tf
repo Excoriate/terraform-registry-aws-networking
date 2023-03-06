@@ -85,24 +85,24 @@ variable "action_forward_config" {
   default = null
 }
 
-variable "action_authenticate_cognito_config" {
-  type = list(object({
-    name = string
-    rules = list(object({
-      user_pool_arn                       = optional(string, null)
-      user_pool_client_id                 = optional(string, null)
-      user_pool_domain                    = optional(string, null)
-      session_cookie_name                 = optional(string, null)
-      session_timeout                     = optional(number, null)
-      scope                               = optional(string, null)
-      on_unauthenticated_request          = optional(string, null)
-      authentication_request_extra_params = optional(map(string), null)
-      on_authenticated_request            = optional(string, null)
-    }))
-  }))
-  default = null
-}
-
+#variable "action_authenticate_cognito_config" {
+#  type = list(object({
+#    name = string
+#    rules = list(object({
+#      user_pool_arn                       = optional(string, null)
+#      user_pool_client_id                 = optional(string, null)
+#      user_pool_domain                    = optional(string, null)
+#      session_cookie_name                 = optional(string, null)
+#      session_timeout                     = optional(number, null)
+#      scope                               = optional(string, null)
+#      on_unauthenticated_request          = optional(string, null)
+#      authentication_request_extra_params = optional(map(string), null)
+#      on_authenticated_request            = optional(string, null)
+#    }))
+#  }))
+#  default = null
+#}
+#
 variable "conditions_config" {
   type = list(object({
     name = string
