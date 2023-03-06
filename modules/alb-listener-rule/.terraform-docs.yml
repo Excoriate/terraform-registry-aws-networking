@@ -1,0 +1,47 @@
+---
+formatter: markdown table
+
+header-from: main.tf
+content: |-
+    # ☁️ Application Load Balancer listener rule
+    ## Description
+    {{ .Header }}
+    This module creates an ALB listener rule that redirects traffic to a target group. For more information about this specific resource, please
+    refer to its official terraform-registry documentation: [aws_lb_listener_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule).
+    A summary of its capabilities are:
+    * 🚀 Create an ALB listener rule
+    * 🚀 Create an ALB listener rule with multiple actions
+
+    ---
+    ## Example
+    Examples of this module's usage are available in the [examples](./examples) folder.
+
+    ```hcl
+    {{ include "../../examples/alb-listener-rule/basic/main.tf" }}
+    ```
+    ---
+
+    ## Module's documentation
+    (This documentation is auto-generated using [terraform-docs](https://terraform-docs.io))
+    {{ .Providers }}
+
+    {{ .Modules }}
+
+    {{ .Resources }}
+
+    {{ .Requirements }}
+
+    {{ .Inputs }}
+
+    {{ .Outputs }}
+
+output:
+    file: README.md
+    mode: inject
+    template: |-
+        <!-- BEGIN_TF_DOCS -->
+        {{ .Content }}
+        <!-- END_TF_DOCS -->
+settings:
+    anchor: true
+    color: true
