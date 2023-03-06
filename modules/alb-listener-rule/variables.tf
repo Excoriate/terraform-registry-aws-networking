@@ -112,8 +112,8 @@ variable "conditions_config" {
         values = optional(list(string), null)
       }), null)
       query_string_config = optional(object({
-        key    = optional(string, null)
-        values = optional(list(string), null)
+        key   = optional(string, null)
+        value = optional(string, null)
       }), null)
       http_request_method_config = optional(list(string), null)
     }))

@@ -52,6 +52,14 @@ resource "aws_lb_listener_rule" "rule_redirection" {
           values           = http_header.value["values"]
         }
       }
+
+      dynamic "query_string" {
+        for_each = length([for c in local.query_string_config_normalised : c if c["name"] == each.value["name"]]) > 0 ? [for c in local.query_string_config_normalised : c if c["name"] == each.value["name"]] : []
+        content {
+          key   = query_string.value["key"]
+          value = query_string.value["value"]
+        }
+      }
     }
   }
 }

@@ -55,5 +55,16 @@ conditions_config = [
         }
       }
     ]
+  },
+  {
+    name = "test"
+    conditions = [
+      {
+        query_string_config = {
+          key   = "key"
+          value = "value"
+        }
+      }
+    ]
   }
 ]

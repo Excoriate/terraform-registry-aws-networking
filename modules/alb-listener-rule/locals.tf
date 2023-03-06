@@ -117,4 +117,17 @@ locals {
       values = [for c in condition.conditions : c["http_header_config"]][0]["values"]
     } if[for c in condition.conditions : c["http_header_config"]][0] != null
   ]
+
+  /*
+   * Condition configuration
+   * This collection and subsequent map check which option was set, to selectively pick them up when the rule is created.
+   * This act upon the 'query_string_config' condition.
+  */
+  query_string_config_normalised = !local.are_conditions_set ? [] : [
+    for condition in var.conditions_config : {
+      name  = lower(trimspace(condition.name))
+      key   = [for c in condition.conditions : c["query_string_config"]][0]["key"]
+      value = [for c in condition.conditions : c["query_string_config"]][0]["value"]
+    } if[for c in condition.conditions : c["query_string_config"]][0] != null
+  ]
 }
