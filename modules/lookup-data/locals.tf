@@ -21,6 +21,7 @@ locals {
       retrieve_all          = var.vpc_data.retrieve_subnets
       retrieve_only_public  = var.vpc_data.retrieve_subnets_public
       retrieve_only_private = var.vpc_data.retrieve_subnets_private
+      filter_by_az          = var.vpc_data.filter_by_az
     }
   ]
 
@@ -41,6 +42,14 @@ locals {
       identifier = data.subnet_public_identifier
     } if data.retrieve_only_public
   }
+
+  subnet_public_fetch_by_az = !local.is_vpc_data_enabled ? {} : {
+    for data in local.vpc_data : data.vpc_name => {
+      vpc_name   = data.vpc_name
+      identifier = data.subnet_public_identifier
+    } if data.retrieve_only_public && data.filter_by_az
+  }
+
 
   subnet_all_fetch = !local.is_vpc_data_enabled ? {} : {
     for data in local.vpc_data : data.vpc_name => {

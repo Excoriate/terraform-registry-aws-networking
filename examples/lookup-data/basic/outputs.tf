@@ -37,3 +37,33 @@ output "subnet_all_ids" {
   value       = module.main_module.subnet_all_ids
   description = "All subnet ids"
 }
+
+output "subnet_public_az_a_ids_data" {
+  value       = module.main_module.subnet_public_az_a_ids_data
+  description = "The public subnet ids data for AZ A."
+}
+
+output "subnet_public_az_a_data" {
+  value       = module.main_module.subnet_public_az_a_data
+  description = "The public subnet data for AZ A."
+}
+
+output "subnet_public_az_b_ids_data" {
+  value       = module.main_module.subnet_public_az_b_ids_data
+  description = "The public subnet ids data for AZ B."
+}
+
+output "subnet_public_az_b_data" {
+  value       = module.main_module.subnet_public_az_b_data
+  description = "The public subnet data for AZ B."
+}
+
+output "subnet_public_az_c_ids_data" {
+  value       = module.main_module.subnet_public_az_c_ids_data
+  description = "The public subnet ids data for AZ C."
+}
+
+output "subnet_public_az_c_data" {
+  value       = module.main_module.subnet_public_az_c_data
+  description = "The public subnet data for AZ C."
+}

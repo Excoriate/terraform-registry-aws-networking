@@ -30,8 +30,18 @@ variable "vpc_data" {
     retrieve_subnets          = optional(bool, false)
     retrieve_subnets_private  = optional(bool, false)
     retrieve_subnets_public   = optional(bool, false)
+    filter_by_az              = optional(bool, false)
   })
   description = <<EOF
+A set of options to perform lookup and search over AWS configured network components. The allowed
+filters and/or search criteria are:
+  - name                     : The name of the VPC to search for.
+  - subnet_public_identifier : The identifier of the public subnet to search for.
+  - subnet_private_identifier: The identifier of the private subnet to search for.
+  - retrieve_subnets         : Whether to retrieve the subnets of the VPC.
+  - retrieve_subnets_private : Whether to retrieve the private subnets of the VPC.
+  - retrieve_subnets_public  : Whether to retrieve the public subnets of the VPC.
+  - filter_by_az             : Whether to filter the subnets by availability zone.
   EOF
   default     = null
 }
