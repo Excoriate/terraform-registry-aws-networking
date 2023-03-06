@@ -67,3 +67,33 @@ output "subnet_public_az_c_data" {
   value       = module.main_module.subnet_public_az_c_data
   description = "The public subnet data for AZ C."
 }
+
+output "subnet_private_az_a_ids_data" {
+  value       = module.main_module.subnet_private_az_a_ids_data
+  description = "The private subnet ids data for AZ A."
+}
+
+output "subnet_private_az_a_data" {
+  value       = module.main_module.subnet_private_az_a_data
+  description = "The private subnet data for AZ A."
+}
+
+output "subnet_private_az_b_ids_data" {
+  value       = module.main_module.subnet_private_az_b_ids_data
+  description = "The private subnet ids data for AZ B."
+}
+
+output "subnet_private_az_b_data" {
+  value       = module.main_module.subnet_private_az_b_data
+  description = "The private subnet data for AZ B."
+}
+
+output "subnet_private_az_c_ids_data" {
+  value       = module.main_module.subnet_private_az_c_ids_data
+  description = "The private subnet ids data for AZ C."
+}
+
+output "subnet_private_az_c_data" {
+  value       = module.main_module.subnet_private_az_c_data
+  description = "The private subnet data for AZ C."
+}

@@ -4,4 +4,5 @@ is_enabled = true
 vpc_data = {
   name                     = "tsn-sandbox-us-east-1-network-core-cross-vpc-backbone"
   retrieve_subnets_private = true
+  filter_by_az             = true
 }

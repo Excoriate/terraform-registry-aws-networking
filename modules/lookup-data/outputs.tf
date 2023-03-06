@@ -72,3 +72,33 @@ output "subnet_public_az_c_data" {
   value       = data.aws_subnet.subnets_public_by_az_1c
   description = "The public subnet data for AZ C."
 }
+
+output "subnet_private_az_a_ids_data" {
+  value       = data.aws_subnet_ids.subnets_private_by_az_1a
+  description = "The private subnet ids data for AZ A."
+}
+
+output "subnet_private_az_a_data" {
+  value       = data.aws_subnet.subnets_private_by_az_1a
+  description = "The private subnet data for AZ A."
+}
+
+output "subnet_private_az_b_ids_data" {
+  value       = data.aws_subnet_ids.subnets_private_by_az_1b
+  description = "The private subnet ids data for AZ B."
+}
+
+output "subnet_private_az_b_data" {
+  value       = data.aws_subnet.subnets_private_by_az_1b
+  description = "The private subnet data for AZ B."
+}
+
+output "subnet_private_az_c_ids_data" {
+  value       = data.aws_subnet_ids.subnets_private_by_az_1c
+  description = "The private subnet ids data for AZ C."
+}
+
+output "subnet_private_az_c_data" {
+  value       = data.aws_subnet.subnets_private_by_az_1c
+  description = "The private subnet data for AZ C."
+}

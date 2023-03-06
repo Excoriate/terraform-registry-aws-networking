@@ -7,7 +7,9 @@ locals {
   /*
    * Control flags
   */
-  is_vpc_data_enabled = !var.is_enabled ? false : var.vpc_data == null ? false : true
+  is_vpc_data_enabled    = !var.is_enabled ? false : var.vpc_data == null ? false : true
+  retrieve_public_by_az  = !local.is_vpc_data_enabled ? false : var.vpc_data.retrieve_subnets_public && var.vpc_data.filter_by_az
+  retrieve_private_by_az = !local.is_vpc_data_enabled ? false : var.vpc_data.retrieve_subnets_private && var.vpc_data.filter_by_az
 
   /*
    * VPC data
@@ -48,6 +50,13 @@ locals {
       vpc_name   = data.vpc_name
       identifier = data.subnet_public_identifier
     } if data.retrieve_only_public && data.filter_by_az
+  }
+
+  subnet_private_fetch_by_az = !local.is_vpc_data_enabled ? {} : {
+    for data in local.vpc_data : data.vpc_name => {
+      vpc_name   = data.vpc_name
+      identifier = data.subnet_private_identifier
+    } if data.retrieve_only_private && data.filter_by_az
   }
 
 
