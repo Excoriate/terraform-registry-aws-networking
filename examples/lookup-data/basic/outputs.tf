@@ -97,3 +97,13 @@ output "subnet_private_az_c_data" {
   value       = module.main_module.subnet_private_az_c_data
   description = "The private subnet data for AZ C."
 }
+
+output "dns_data_acm_certificate" {
+  value       = module.main_module.dns_data_acm_certificate
+  description = "The ACM certificate data."
+}
+
+output "dns_data_hosted_zone" {
+  value       = module.main_module.dns_data_hosted_zone
+  description = "The hosted zone data."
+}

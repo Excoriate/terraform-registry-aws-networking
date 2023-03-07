@@ -45,3 +45,19 @@ filters and/or search criteria are:
   EOF
   default     = null
 }
+
+variable "dns_data" {
+  type = object({
+    domain                = string
+    fetch_zone            = optional(bool, false)
+    fetch_acm_certificate = optional(bool, false)
+  })
+  description = <<EOF
+A set of options to perform lookup and search over AWS configured DNS components. The allowed
+filters and/or search criteria are:
+  - domain: The domain name to search for.
+  - fetch_zone: Whether to fetch the zone data.
+  - fetch_acm_certificate: Whether to fetch the ACM certificate data.
+  EOF
+  default     = null
+}

@@ -8,6 +8,9 @@ locals {
    * Control flags
   */
   is_vpc_data_enabled    = !var.is_enabled ? false : var.vpc_data == null ? false : true
+  is_dns_data_enabled    = !var.is_enabled ? false : var.dns_data == null ? false : true
+  fetch_dns_zone_enabled = !local.is_dns_data_enabled ? false : var.dns_data.fetch_zone
+  fetch_dns_acm_enabled  = !local.is_dns_data_enabled ? false : var.dns_data.fetch_acm_certificate
   retrieve_public_by_az  = !local.is_vpc_data_enabled ? false : var.vpc_data.retrieve_subnets_public && var.vpc_data.filter_by_az
   retrieve_private_by_az = !local.is_vpc_data_enabled ? false : var.vpc_data.retrieve_subnets_private && var.vpc_data.filter_by_az
 
@@ -64,5 +67,35 @@ locals {
     for data in local.vpc_data : data.vpc_name => {
       vpc_name = data.vpc_name
     } if data.retrieve_all
+  }
+
+  /*
+   * DNS data
+  */
+  dns_data = !local.is_dns_data_enabled ? [] : [
+    {
+      domain_name   = lower(trimspace(var.dns_data.domain))
+      dns_zone_name = lower(trimspace(var.dns_data.domain)) // normally it corresponds to the domain name.
+      // Options.
+      fetch_zone            = var.dns_data.fetch_zone
+      fetch_acm_certificate = var.dns_data.fetch_acm_certificate
+    }
+  ]
+
+  dns_data_fetch = !local.is_dns_data_enabled ? {} : {
+    for data in local.dns_data : data.dns_zone_name => data
+  }
+
+  dns_zone_fetch = !local.is_dns_data_enabled ? {} : {
+    for data in local.dns_data : data["domain_name"] => {
+      domain_name   = data.domain_name
+      dns_zone_name = data.dns_zone_name
+    } if data.fetch_zone
+  }
+
+  dns_acm_fetch = !local.is_dns_data_enabled ? {} : {
+    for data in local.dns_data : data["domain_name"] => {
+      domain_name = data.domain_name
+    } if data.fetch_acm_certificate
   }
 }

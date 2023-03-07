@@ -4,4 +4,5 @@ module "main_module" {
   aws_region = var.aws_region
 
   vpc_data = var.vpc_data
+  dns_data = var.dns_data
 }

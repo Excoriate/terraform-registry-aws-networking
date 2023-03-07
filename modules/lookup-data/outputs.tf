@@ -102,3 +102,13 @@ output "subnet_private_az_c_data" {
   value       = data.aws_subnet.subnets_private_by_az_1c
   description = "The private subnet data for AZ C."
 }
+
+output "dns_data_acm_certificate" {
+  value       = data.aws_acm_certificate.this
+  description = "The ACM certificate data."
+}
+
+output "dns_data_hosted_zone" {
+  value       = data.aws_route53_zone.this
+  description = "The hosted zone data."
+}
