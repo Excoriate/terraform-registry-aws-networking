@@ -31,6 +31,7 @@ variable "target_group_config" {
     slow_start                    = optional(number, 30)
     deregistration_delay          = optional(number, 15)
     load_balancing_algorithm_type = optional(string, "round_robin")
+    target_type                   = optional(string, "ip")
     vpc_id                        = string
     health_check = optional(object({
       enabled             = bool
@@ -58,6 +59,7 @@ A configuration object that allows the creation of multiple target groups, of ty
 - slow_start: The time period, in seconds, during which the load balancer shifts traffic from the old target to the new target. During this time, the load balancer sends both new and old targets a proportional share of the traffic. After the time period ends, the load balancer shifts all traffic to the new target. The default is 30 seconds.
 - deregistration_delay: The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default is 15 seconds.
 - load_balancing_algorithm_type: The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.
+- target_type: The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address). The default is ip.
 - vpc_id: The ID of the VPC for the targets.
 - health_check: An object that contains information about the health checks that Amazon performs on the targets in the target group. The object has the following attributes:
   - enabled: Indicates whether health checks are enabled. The default is true.

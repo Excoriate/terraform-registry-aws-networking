@@ -5,7 +5,7 @@ resource "aws_lb_target_group" "alb_tg" {
   protocol                      = each.value["protocol"]
   protocol_version              = each.value["protocol_version"]
   slow_start                    = each.value["slow_start"]
-  target_type                   = "alb"
+  target_type                   = each.value["target_type"]
   vpc_id                        = each.value["vpc_id"]
   deregistration_delay          = each.value["deregistration_delay"]
   load_balancing_algorithm_type = each.value["load_balancing_algorithm_type"]

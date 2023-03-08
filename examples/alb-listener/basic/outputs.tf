@@ -27,3 +27,23 @@ output "alb_listener_ssl_policy" {
   value       = module.main_module.alb_listener_ssl_policy
   description = "The SSL policy of the ALB listener."
 }
+
+output "alb_listener_ooo_http_id" {
+  value       = module.main_module.alb_listener_ooo_http_id
+  description = "The out-of-band healthcheck of the ALB listener."
+}
+
+output "alb_listener_ooo_http_arn" {
+  value       = module.main_module.alb_listener_ooo_http_arn
+  description = "The out-of-band healthcheck of the ALB listener."
+}
+
+output "alb_listener_ooo_https_id" {
+  value       = module.main_module.alb_listener_ooo_https_id
+  description = "The out-of-band healthcheck of the ALB listener."
+}
+
+output "alb_listener_ooo_https_arn" {
+  value       = module.main_module.alb_listener_ooo_https_arn
+  description = "The out-of-band healthcheck of the ALB listener."
+}

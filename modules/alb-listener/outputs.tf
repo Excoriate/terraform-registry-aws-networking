@@ -32,3 +32,23 @@ output "alb_listener_ssl_policy" {
   value       = [for l in aws_lb_listener.this : l.ssl_policy]
   description = "The SSL policy of the ALB listener."
 }
+
+output "alb_listener_ooo_http_id" {
+  value       = [for l in aws_alb_listener.http_ooo : l.id]
+  description = "The out-of-band healthcheck of the ALB listener."
+}
+
+output "alb_listener_ooo_http_arn" {
+  value       = [for l in aws_alb_listener.http_ooo : l.arn]
+  description = "The out-of-band healthcheck of the ALB listener."
+}
+
+output "alb_listener_ooo_https_id" {
+  value       = [for l in aws_alb_listener.https_ooo : l.id]
+  description = "The out-of-band healthcheck of the ALB listener."
+}
+
+output "alb_listener_ooo_https_arn" {
+  value       = [for l in aws_alb_listener.https_ooo : l.arn]
+  description = "The out-of-band healthcheck of the ALB listener."
+}

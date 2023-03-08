@@ -32,7 +32,7 @@ variable "alb_listeners_config" {
     default_action = object({
       type             = optional(string, "forward")
       target_group_arn = optional(string, null)
-      forward = object({
+      forward = optional(object({
         target_group = list(object({
           target_group_arn = string
           weight           = optional(number, null)
@@ -41,7 +41,7 @@ variable "alb_listeners_config" {
           duration = optional(number, null)
           enabled  = optional(bool, null)
         }), null)
-      })
+      }), null)
     })
   }))
   description = <<EOF
@@ -55,5 +55,39 @@ Current supported attributes are:
 - certificate_arn: The ARN of the certificate.
 - default_action: The default action for the listener.
   EOF
+  default     = null
+}
+
+variable "alb_listener_ooo_https" {
+  type = list(object({
+    name             = string
+    certificate_arn  = string
+    target_group_arn = string
+    alb_arn          = string
+  }))
+  description = <<EOF
+  A list of objects that contains the configuration for the ALB listeners.
+Current supported attributes are:
+- name: The name of the listener. Friendly name, to internally manage multiple TF resources.
+- alb_arn: The ARN of the ALB.
+- certificate_arn: The ARN of the certificate.
+- target_group_arn: The ARN of the target group.
+EOF
+  default     = null
+}
+
+variable "alb_listener_ooo_http" {
+  type = list(object({
+    name             = string
+    alb_arn          = string
+    target_group_arn = string
+  }))
+  description = <<EOF
+  A list of objects that contains the configuration for the ALB listeners.
+Current supported attributes are:
+- name: The name of the listener. Friendly name, to internally manage multiple TF resources.
+- target_group_arn: The ARN of the target group.
+- alb_arn: The ARN of the ALB.
+EOF
   default     = null
 }

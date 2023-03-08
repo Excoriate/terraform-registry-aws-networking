@@ -20,6 +20,7 @@ locals {
       deregistration_delay          = tg["deregistration_delay"] == null ? 300 : tg["deregistration_delay"]
       load_balancing_algorithm_type = tg["load_balancing_algorithm_type"] == null ? "round_robin" : tg["load_balancing_algorithm_type"]
       vpc_id                        = tg["vpc_id"]
+      target_type                   = tg["target_type"] == null ? "ip" : trimspace(tg["target_type"])
       health_check = tg["health_check"] == null ? null : {
         enabled             = true
         path                = tg["health_check"]["path"]
@@ -49,6 +50,7 @@ locals {
       deregistration_delay          = tg["deregistration_delay"]
       load_balancing_algorithm_type = tg["load_balancing_algorithm_type"]
       vpc_id                        = tg["vpc_id"]
+      target_type                   = tg["target_type"]
       health_check = tg["health_check"] == null ? null : {
         enabled             = tg["health_check"]["enabled"]
         path                = tg["health_check"]["path"]
