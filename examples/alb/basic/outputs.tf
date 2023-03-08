@@ -32,3 +32,8 @@ output "alb_zone_id" {
   value       = module.main_module.alb_zone_id
   description = "The canonical hosted zone ID of the ALB (to be used in a Route 53 Alias record)."
 }
+
+output "alb_name" {
+  value       = module.main_module.alb_name
+  description = "The name of the ALB."
+}

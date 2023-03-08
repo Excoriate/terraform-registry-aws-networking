@@ -37,3 +37,8 @@ output "alb_zone_id" {
   value       = [for alb in aws_lb.this : alb.zone_id]
   description = "The canonical hosted zone ID of the ALB (to be used in a Route 53 Alias record)."
 }
+
+output "alb_name" {
+  value       = [for alb in aws_lb.this : alb.name]
+  description = "The name of the ALB."
+}
