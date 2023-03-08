@@ -21,6 +21,7 @@ locals {
       load_balancing_algorithm_type = tg["load_balancing_algorithm_type"] == null ? "round_robin" : tg["load_balancing_algorithm_type"]
       vpc_id                        = tg["vpc_id"]
       health_check = tg["health_check"] == null ? null : {
+        enabled             = true
         path                = tg["health_check"]["path"]
         port                = tg["health_check"]["port"]
         protocol            = upper(trimspace(tg["health_check"]["protocol"]))
@@ -49,6 +50,7 @@ locals {
       load_balancing_algorithm_type = tg["load_balancing_algorithm_type"]
       vpc_id                        = tg["vpc_id"]
       health_check = tg["health_check"] == null ? null : {
+        enabled             = tg["health_check"]["enabled"]
         path                = tg["health_check"]["path"]
         port                = tg["health_check"]["port"]
         protocol            = tg["health_check"]["protocol"]
