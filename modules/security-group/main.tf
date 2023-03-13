@@ -5,6 +5,10 @@ resource "aws_security_group" "this" {
   vpc_id      = local.is_vpc_lookup_enabled ? local.vpc_looked_up : each.value["vpc_id"]
 
   tags = var.tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "cidr_based_rule" {
