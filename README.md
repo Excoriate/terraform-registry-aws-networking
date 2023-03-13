@@ -56,6 +56,7 @@ The documentation is **automatically generated** by [terraform-docs](https://ter
 | `aws-route53-dns-records` | Stable ✅ | Provision a DNS record of different types. Currently supported, type A.                  |
 | `target-group-attacher`   | Stable ✅ | Handy module that attach a backend with a target group E.g.: ALB).                       |
 | `lookup-data`             | Stable ✅ | Module that lookup for network-related data.                                             |
+| `security-group-rules`    | Stable ✅ | Module that create security group rules on top of an existing security group.            |
 
 ### Getting Started
 
