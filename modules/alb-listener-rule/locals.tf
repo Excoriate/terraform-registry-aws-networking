@@ -214,7 +214,6 @@ locals {
         http_request_method = action["http_request_method_condition"] == null ? null : [for http_request_method in action["http_request_method_condition"] : http_request_method]
       }
 
-      is_condition_block_enabled               = action["http_request_method_condition"] == null && action["host_header_condition"] == null && action["http_header_condition"] == null && action["path_pattern_condition"] == null ? false : true
       is_host_header_condition_enabled         = action["host_header_condition"] == null ? false : length(action["host_header_condition"]) > 0
       is_http_header_condition_enabled         = action["http_header_condition"] == null ? false : true
       is_path_pattern_condition_enabled        = action["path_pattern_condition"] == null ? false : length(action["path_pattern_condition"]) > 0
