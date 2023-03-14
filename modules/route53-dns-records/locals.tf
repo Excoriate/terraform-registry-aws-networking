@@ -15,6 +15,7 @@ locals {
       zone_name       = record["zone_name"] == null ? null : trimspace(record["zone_name"])
       zone_id         = record["zone_id"] == null ? null : trimspace(record["zone_id"])
       allow_overwrite = record["allow_overwrite"] == null ? false : record["allow_overwrite"]
+      ttl             = record["ttl"] == null ? 60 : record["ttl"]
       alias = record["alias_target_config"] == null ? {} : {
         name                   = trimspace(record["alias_target_config"]["target_dns_name"])
         zone_id                = trimspace(record["alias_target_config"]["target_zone_id"])

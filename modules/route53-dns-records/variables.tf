@@ -28,6 +28,7 @@ variable "record_type_alias_config" {
     zone_name       = optional(string, null)
     zone_id         = optional(string, null)
     allow_overwrite = optional(bool, false)
+    ttl             = optional(number, 30)
     alias_target_config = object({
       target_zone_id             = string
       target_dns_name            = string
@@ -42,6 +43,7 @@ variable "record_type_alias_config" {
   - zone_id: The ID of the zone to contain this record.
   - allow_overwrite: If true, any existing records with the same name and type will be overwritten.
 If false, all existing records with the same name and type will be overwritten.
+  - ttl: The TTL of the record.
   - alias_target_config: A object that contains the following attributes:
     - target_zone_id: The ID of the zone to contain the resource record set that you're
 creating the alias for.
