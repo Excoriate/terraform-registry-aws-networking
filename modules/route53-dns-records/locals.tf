@@ -11,11 +11,12 @@ locals {
 
   dns_alias_normalized = !local.is_dns_alias_enabled ? [] : [
     for record in var.record_type_alias_config : {
-      name            = record["name"]
-      zone_name       = record["zone_name"] == null ? null : trimspace(record["zone_name"])
-      zone_id         = record["zone_id"] == null ? null : trimspace(record["zone_id"])
-      allow_overwrite = record["allow_overwrite"] == null ? false : record["allow_overwrite"]
-      ttl             = record["ttl"] == null ? 60 : record["ttl"]
+      name             = record["name"]
+      zone_name        = record["zone_name"] == null ? null : trimspace(record["zone_name"])
+      zone_id          = record["zone_id"] == null ? null : trimspace(record["zone_id"])
+      allow_overwrite  = record["allow_overwrite"] == null ? false : record["allow_overwrite"]
+      ttl              = record["ttl"] == null ? 60 : record["ttl"]
+      enable_www_cname = record["enable_www_cname"] == null ? false : record["enable_www_cname"]
       alias = record["alias_target_config"] == null ? {} : {
         name                   = trimspace(record["alias_target_config"]["target_dns_name"])
         zone_id                = trimspace(record["alias_target_config"]["target_zone_id"])
@@ -24,6 +25,7 @@ locals {
       // Feature flags.
       is_zone_lookup_by_zone_id_enabled   = record["zone_id"] != null
       is_zone_lookup_by_zone_name_enabled = record["zone_name"] != null // Name will take precedence
+      is_www_enabled                      = record["enable_www_cname"] == null ? false : record["enable_www_cname"]
     }
   ]
 

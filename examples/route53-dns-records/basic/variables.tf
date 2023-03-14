@@ -24,11 +24,12 @@ Custom input variables
 */
 variable "record_type_alias_config" {
   type = list(object({
-    name            = string
-    zone_name       = optional(string, null)
-    zone_id         = optional(string, null)
-    allow_overwrite = optional(bool, false)
-    ttl             = optional(number, 30)
+    name             = string
+    zone_name        = optional(string, null)
+    zone_id          = optional(string, null)
+    allow_overwrite  = optional(bool, false)
+    ttl              = optional(number, 30)
+    enable_www_cname = optional(bool, false)
     alias_target_config = object({
       target_zone_id             = string
       target_dns_name            = string
@@ -44,6 +45,7 @@ variable "record_type_alias_config" {
   - allow_overwrite: If true, any existing records with the same name and type will be overwritten.
 If false, all existing records with the same name and type will be overwritten.
   - ttl: The TTL of the record.
+  - enable_www_cname: If true, a CNAME record will be created for www.<name>.
   - alias_target_config: A object that contains the following attributes:
     - target_zone_id: The ID of the zone to contain the resource record set that you're
 creating the alias for.
