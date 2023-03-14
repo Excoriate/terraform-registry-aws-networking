@@ -10,11 +10,12 @@ module "main_module" {
     type         = "fixed-response"
   }]
 
-  action_redirect_config             = var.action_redirect_config
-  action_authenticate_cognito_config = var.action_authenticate_cognito_config
-  action_forward_config              = var.action_forward_config
-  action_fixed_response_config       = var.action_fixed_response_config
-  conditions_config                  = var.conditions_config
+  action_redirect_config = var.action_redirect_config
+  #  action_authenticate_cognito_config = var.action_authenticate_cognito_config
+  action_forward_config        = var.action_forward_config
+  action_fixed_response_config = var.action_fixed_response_config
+  conditions_config            = var.conditions_config
+  action_redirect_https        = var.action_redirect_https
 }
 
 

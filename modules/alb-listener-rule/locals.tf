@@ -9,10 +9,11 @@ locals {
    - Control each specific rule configuration.
    - Control each specific condition configuration.
   */
-  is_enabled                   = !var.is_enabled ? false : var.listener_rules_config == null ? false : length(var.listener_rules_config) > 0
-  is_action_redirect_set       = !local.is_enabled ? false : var.action_redirect_config == null ? false : length(var.action_redirect_config) > 0
-  is_action_forward_set        = !local.is_enabled ? false : var.action_forward_config == null ? false : length(var.action_forward_config) > 0
-  is_action_fixed_response_set = !local.is_enabled ? false : var.action_fixed_response_config == null ? false : length(var.action_fixed_response_config) > 0
+  is_enabled                           = !var.is_enabled ? false : var.listener_rules_config == null ? false : length(var.listener_rules_config) > 0
+  is_action_redirect_set               = !local.is_enabled ? false : var.action_redirect_config == null ? false : length(var.action_redirect_config) > 0
+  is_action_forward_set                = !local.is_enabled ? false : var.action_forward_config == null ? false : length(var.action_forward_config) > 0
+  is_action_fixed_response_set         = !local.is_enabled ? false : var.action_fixed_response_config == null ? false : length(var.action_fixed_response_config) > 0
+  is_action_ooo_https_redirect_enabled = !var.is_enabled ? false : var.action_redirect_https == null ? false : length(var.action_redirect_https) > 0
   #  is_action_authenticate_cognito_set = !local.is_enabled ? false : var.action_authenticate_cognito_config == null ? false : length(var.action_authenticate_cognito_config) > 0
   are_conditions_set = !local.is_enabled ? false : var.conditions_config == null ? false : length(var.conditions_config) > 0
 
@@ -25,7 +26,7 @@ locals {
       type         = config["type"] == null ? "forward" : trimspace(config["type"])
     }
   ]
-  parent_config_to_create = !local.is_enabled ? {} : { for config in local.parent_config : config["name"] => config
+  parent_config_to_create = !local.is_enabled ? {} : local.is_action_ooo_https_redirect_enabled ? {} : { for config in local.parent_config : config["name"] => config
   }
 
   /*
@@ -192,4 +193,33 @@ locals {
       value = [for c in condition.conditions : c["query_string_config"]][0]["value"]
     } if[for c in condition.conditions : c["query_string_config"]][0] != null
   ]
+
+  /*
+   * Set of OOO actions
+   * 1. HTTPs redirection
+  */
+  action_redirect_https_normalised = !local.is_action_ooo_https_redirect_enabled ? [] : [
+    for action in var.action_redirect_https : {
+      name                 = lower(trimspace(action.name))
+      type                 = "redirect"
+      redirect_port        = 443
+      priority             = action["priority"] == null ? null : action["priority"]
+      listener_arn         = action["listener_arn"]
+      redirect_protocol    = "HTTPS"
+      redirect_status_code = "HTTP_301"
+      conditions = action["host_header_condition"] == null && action["http_header_condition"] == null && action["path_pattern_condition"] == null ? {} : {
+        http_header  = action["http_header_condition"] == null ? null : { for k, v in action["http_header_condition"] : k => v }
+        host_header  = action["host_header_condition"] == null ? null : [for host_header in action["host_header_condition"] : host_header]
+        path_pattern = action["path_pattern_condition"] == null ? null : [for path_pattern in action["path_pattern_condition"] : path_pattern]
+      }
+
+      is_condition_block_enabled        = action["host_header_condition"] == null && action["http_header_condition"] == null && action["path_pattern_condition"] == null ? false : true
+      is_host_header_condition_enabled  = action["host_header_condition"] == null ? false : length(action["host_header_condition"]) > 0
+      is_http_header_condition_enabled  = action["http_header_condition"] == null ? false : true
+      is_path_pattern_condition_enabled = action["path_pattern_condition"] == null ? false : length(action["path_pattern_condition"]) > 0
+    }
+  ]
+
+  action_redirect_https_create = !local.is_action_ooo_https_redirect_enabled ? {} : { for action in local.action_redirect_https_normalised : action["name"] => action }
+
 }
