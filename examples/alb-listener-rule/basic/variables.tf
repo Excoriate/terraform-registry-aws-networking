@@ -125,11 +125,12 @@ variable "conditions_config" {
 
 variable "action_redirect_https" {
   type = list(object({
-    name                   = string
-    listener_arn           = string
-    host_header_condition  = optional(list(string), null)
-    priority               = optional(number, null)
-    path_pattern_condition = optional(list(string), null)
+    name                          = string
+    listener_arn                  = string
+    host_header_condition         = optional(list(string), null)
+    priority                      = optional(number, null)
+    path_pattern_condition        = optional(list(string), null)
+    http_request_method_condition = optional(list(string), null)
     http_header_condition = optional(object({
       header = string
       values = list(string)
@@ -144,6 +145,7 @@ variable "action_redirect_https" {
   - priority: The priority for the rule. This must be unique for each rule in the same listener.
   - host_header_condition: The host header to match.
   - path_pattern_condition: The path pattern to match.
+  - http_request_method_condition: The http request method to match.
   - http_header_condition: The http header to match.
 EOF
 }

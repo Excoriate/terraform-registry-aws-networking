@@ -13,7 +13,7 @@ resource "aws_lb_listener_rule" "ooo_redirect_https" {
   }
 
   dynamic "condition" {
-    for_each = !each.value["is_condition_block_enabled"] ? {} : each.value["conditions"]
+    for_each = !each.value["is_condition_block_enabled"] ? null : { for k, v in each.value["conditions"] : k => v }
     content {
       dynamic "host_header" {
         for_each = !each.value["is_host_header_condition_enabled"] ? [] : [true]
@@ -34,6 +34,13 @@ resource "aws_lb_listener_rule" "ooo_redirect_https" {
         for_each = !each.value["is_path_pattern_condition_enabled"] ? [] : [true]
         content {
           values = lookup(each.value["conditions"], "path_pattern")
+        }
+      }
+
+      dynamic "http_request_method" {
+        for_each = !each.value["is_http_request_method_condition_enabled"] ? [] : [true]
+        content {
+          values = lookup(each.value["conditions"], "http_request_method")
         }
       }
     }
