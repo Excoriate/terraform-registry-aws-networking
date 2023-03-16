@@ -216,3 +216,51 @@ resource "aws_security_group_rule" "ooo_outbound_https_to_source" {
   security_group_id        = aws_security_group.this[each.value["sg_name"]].id
   source_security_group_id = each.value["source_security_group_id"]
 }
+
+/*
+
+  * Custom port-based rules
+  - Inbound in custom port based on CIDR
+  - Inbound in custom port based on SG
+  - Outbound in custom port based on CIDR
+  - Outbound in custom port based on SG
+*/
+resource "aws_security_group_rule" "ooo_inbound_custom_port_cidr" {
+  for_each          = { for k, v in local.security_group_rules_ooo_inbound_custom_port_cidr : k => v }
+  type              = each.value["type"]
+  from_port         = each.value["from_port"]
+  to_port           = each.value["to_port"]
+  protocol          = each.value["protocol"]
+  cidr_blocks       = each.value["cidr_blocks"]
+  security_group_id = aws_security_group.this[each.value["sg_name"]].id
+}
+
+resource "aws_security_group_rule" "ooo_inbound_custom_port_source_sg" {
+  for_each                 = { for k, v in local.security_group_rules_ooo_inbound_custom_port_source : k => v }
+  type                     = each.value["type"]
+  from_port                = each.value["from_port"]
+  to_port                  = each.value["to_port"]
+  protocol                 = each.value["protocol"]
+  security_group_id        = aws_security_group.this[each.value["sg_name"]].id
+  source_security_group_id = each.value["source_security_group_id"]
+}
+
+resource "aws_security_group_rule" "ooo_outbound_custom_port_cidr" {
+  for_each          = { for k, v in local.security_group_rules_ooo_outbound_custom_port_cidr : k => v }
+  type              = each.value["type"]
+  from_port         = each.value["from_port"]
+  to_port           = each.value["to_port"]
+  protocol          = each.value["protocol"]
+  cidr_blocks       = each.value["cidr_blocks"]
+  security_group_id = aws_security_group.this[each.value["sg_name"]].id
+}
+
+resource "aws_security_group_rule" "ooo_outbound_custom_port_source_sg" {
+  for_each                 = { for k, v in local.security_group_rules_ooo_outbound_custom_port_source : k => v }
+  type                     = each.value["type"]
+  from_port                = each.value["from_port"]
+  to_port                  = each.value["to_port"]
+  protocol                 = each.value["protocol"]
+  security_group_id        = aws_security_group.this[each.value["sg_name"]].id
+  source_security_group_id = each.value["source_security_group_id"]
+}

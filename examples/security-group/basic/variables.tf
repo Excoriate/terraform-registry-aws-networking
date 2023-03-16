@@ -88,25 +88,30 @@ lookup the VPC ID to create the security group in. The following attributes are 
 
 variable "security_group_rules_ooo" {
   type = list(object({
-    sg_parent                              = string
-    enable_all_inbound_traffic             = optional(bool, false)
-    enable_all_inbound_traffic_from_source = optional(bool, false)
-    enable_inbound_http                    = optional(bool, false)
-    enable_inbound_http_from_source        = optional(bool, false)
-    enable_inbound_https                   = optional(bool, false)
-    enable_inbound_https_from_source       = optional(bool, false)
-    enable_inbound_ssh_from_anywhere       = optional(bool, false)
-    enable_inbound_ssh_from_source         = optional(bool, false)
-    enable_inbound_icmp_from_source        = optional(bool, false)
-    enable_inbound_icmp_from_anywhere      = optional(bool, false)
-    enable_inbound_mysql_from_source       = optional(bool, false)
-    enable_outbound_http                   = optional(bool, false)
-    enable_outbound_http_to_source         = optional(bool, false)
-    enable_outbound_https                  = optional(bool, false)
-    enable_outbound_https_to_source        = optional(bool, false)
-    enable_all_outbound_traffic            = optional(bool, false)
-    enable_all_outbound_traffic_to_source  = optional(bool, false)
-    source_security_group_id               = optional(string, null)
+    sg_parent                               = string
+    enable_all_inbound_traffic              = optional(bool, false)
+    enable_all_inbound_traffic_from_source  = optional(bool, false)
+    enable_inbound_http                     = optional(bool, false)
+    enable_inbound_from_custom_port_source  = optional(bool, false)
+    enable_inbound_from_custom_port_cidr    = optional(bool, false)
+    enable_inbound_http_from_source         = optional(bool, false)
+    enable_inbound_https                    = optional(bool, false)
+    enable_inbound_https_from_source        = optional(bool, false)
+    enable_inbound_ssh_from_anywhere        = optional(bool, false)
+    enable_inbound_ssh_from_source          = optional(bool, false)
+    enable_inbound_icmp_from_source         = optional(bool, false)
+    enable_inbound_icmp_from_anywhere       = optional(bool, false)
+    enable_inbound_mysql_from_source        = optional(bool, false)
+    enable_outbound_http                    = optional(bool, false)
+    enable_outbound_from_custom_port_source = optional(bool, false)
+    enable_outbound_from_custom_port_cidr   = optional(bool, false)
+    enable_outbound_http_to_source          = optional(bool, false)
+    enable_outbound_https                   = optional(bool, false)
+    enable_outbound_https_to_source         = optional(bool, false)
+    enable_all_outbound_traffic             = optional(bool, false)
+    enable_all_outbound_traffic_to_source   = optional(bool, false)
+    source_security_group_id                = optional(string, null)
+    custom_port                             = optional(number, null)
   }))
   description = <<EOF
   A list of objects that contains the configuration for the security groups, and that normally
@@ -118,6 +123,8 @@ variable 'security_group_config'. The following attributes are supported:
 - enable_all_inbound_traffic: Whether to enable all inbound traffic or not.
 - enable_all_inbound_traffic_from_source: Whether to enable all inbound traffic from a specific source or not.
 - enable_inbound_http: Whether to enable inbound HTTP traffic or not.
+- enable_inbound_from_custom_port_source: Whether to enable inbound traffic from a specific source or not.
+- enable_inbound_from_custom_port_cidr: Whether to enable inbound traffic from a specific CIDR or not.
 - enable_inbound_http_from_source: Whether to enable inbound HTTP traffic from a specific source or not.
 - enable_inbound_https: Whether to enable inbound HTTPS traffic or not.
 - enable_inbound_https_from_source: Whether to enable inbound HTTPS traffic from a specific source or not.
@@ -127,12 +134,15 @@ variable 'security_group_config'. The following attributes are supported:
 - enable_inbound_icmp_from_anywhere: Whether to enable inbound ICMP traffic from anywhere or not.
 - enable_inbound_mysql_from_source: Whether to enable inbound MySQL traffic from a specific source or not.
 - enable_outbound_http: Whether to enable outbound HTTP traffic or not.
+- enable_outbound_from_custom_port_source: Whether to enable outbound traffic from a specific source or not.
+- enable_outbound_from_custom_port_cidr: Whether to enable outbound traffic from a specific CIDR or not.
 - enable_outbound_http_to_source: Whether to enable outbound HTTP traffic to a specific source or not.
 - enable_outbound_https: Whether to enable outbound HTTPS traffic or not.
 - enable_outbound_https_to_source: Whether to enable outbound HTTPS traffic to a specific source or not.
 - enable_all_outbound_traffic: Whether to enable all outbound traffic or not.
 - enable_all_outbound_traffic_to_source: Whether to enable all outbound traffic to a specific source or not.
 - source_security_group_id: The ID of the source security group.
+- custom_port: The custom port to use for the inbound/outbound traffic.
   EOF
   default     = null
 }

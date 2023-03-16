@@ -137,6 +137,73 @@ locals {
     * These are discretionary rules, and are not mandatory.
   */
 
+  // Inbound using a custom port and source security group
+  security_group_rules_ooo_inbound_custom_port_source_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in var.security_group_rules_ooo : rule if rule["custom_port"] != null && rule["source_security_group_id"] != null
+    && rule["enable_inbound_from_custom_port_source"]
+  ]
+  security_group_rules_ooo_inbound_custom_port_source = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_custom_port_source_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow inbound traffic from %s on custom port %s", rule["sg_parent"], rule["custom_port"])
+      type                     = "ingress"
+      from_port                = rule["custom_port"]
+      to_port                  = rule["custom_port"]
+      protocol                 = "tcp"
+      source_security_group_id = trimspace(lower(rule["source_security_group_id"]))
+    }
+  ]
+
+  // Inbound using a custom port and CIDR
+  security_group_rules_ooo_inbound_custom_port_cidr_fileted = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in var.security_group_rules_ooo : rule if rule["custom_port"] != null && rule["enable_inbound_from_custom_port_cidr"]
+  ]
+  security_group_rules_ooo_inbound_custom_port_cidr = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_inbound_custom_port_cidr_fileted : {
+      sg_name     = trimspace(lower(rule["sg_parent"]))
+      description = format("Allow inbound traffic using custom port %s and CIDR blocks", rule["custom_port"])
+      type        = "ingress"
+      from_port   = rule["custom_port"]
+      to_port     = rule["custom_port"]
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+  // Outbound using a custom port and source security group
+  security_group_rules_ooo_outbound_custom_port_source_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in var.security_group_rules_ooo : rule if rule["custom_port"] != null && rule["source_security_group_id"] != null
+    && rule["enable_outbound_from_custom_port_source"]
+  ]
+  security_group_rules_ooo_outbound_custom_port_source = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_outbound_custom_port_source_filtered : {
+      sg_name                  = trimspace(lower(rule["sg_parent"]))
+      description              = format("Allow outbound traffic from %s on custom port %s", rule["sg_parent"], rule["custom_port"])
+      type                     = "egress"
+      from_port                = rule["custom_port"]
+      to_port                  = rule["custom_port"]
+      protocol                 = "tcp"
+      source_security_group_id = trimspace(lower(rule["source_security_group_id"]))
+    }
+  ]
+
+  // Outbound using a custom port and CIDR
+  security_group_rules_ooo_outbound_custom_port_cidr_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in var.security_group_rules_ooo : rule if rule["custom_port"] != null && rule["enable_outbound_from_custom_port_cidr"]
+  ]
+  security_group_rules_ooo_outbound_custom_port_cidr = !local.is_security_group_rules_ooo_enabled ? [] : [
+    for rule in local.security_group_rules_ooo_outbound_custom_port_cidr_filtered : {
+      sg_name     = trimspace(lower(rule["sg_parent"]))
+      description = format("Allow outbound traffic from and to a custom port %s", rule["custom_port"])
+      type        = "egress"
+      from_port   = rule["custom_port"]
+      to_port     = rule["custom_port"]
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+
+
   // Inbound all traffic
   security_group_rules_ooo_inbound_all_filtered = !local.is_security_group_rules_ooo_enabled ? [] : [
   for rule in var.security_group_rules_ooo : rule if rule["enable_all_inbound_traffic"] == true]
