@@ -11,26 +11,48 @@
 # This resource demonstrates how to create a simple SQS queue with a random name.
 # The `for_each` is used to conditionally create resources based on the module's enabled state.
 
-resource "random_string" "random_text" {
-  for_each = local.is_enabled ? { example = true } : {}
-  length   = 10
-  special  = false
+resource "aws_security_group" "this" {
+  for_each = local.sg_groups_to_create
+
+  name        = each.value["name"]
+  description = each.value["description"]
+  vpc_id      = each.value["vpc_id"]
+
+  tags = var.tags
+
+  dynamic "ingress" {
+    for_each = each.value["ingress"]
+
+    content {
+      description      = ingress.value["description"]
+      from_port        = ingress.value["from_port"]
+      to_port          = ingress.value["to_port"]
+      protocol         = ingress.value["protocol"]
+      cidr_blocks      = ingress.value["cidr_blocks"]
+      ipv6_cidr_blocks = ingress.value["ipv6_cidr_blocks"]
+      prefix_list_ids  = ingress.value["prefix_list_ids"]
+      security_groups  = ingress.value["security_groups"]
+      self             = ingress.value["self"]
+    }
+  }
+
+  dynamic "egress" {
+    for_each = each.value["egress"]
+
+    content {
+      description      = egress.value["description"]
+      from_port        = egress.value["from_port"]
+      to_port          = egress.value["to_port"]
+      protocol         = egress.value["protocol"]
+      cidr_blocks      = egress.value["cidr_blocks"]
+      ipv6_cidr_blocks = egress.value["ipv6_cidr_blocks"]
+      prefix_list_ids  = egress.value["prefix_list_ids"]
+      security_groups  = egress.value["security_groups"]
+      self             = egress.value["self"]
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
-
-# Placeholder for actual resource implementation
-# Replace `random_string.random_text` with your desired resource and configuration.
-# Example:
-# resource "aws_sqs_queue" "example_queue" {
-#   for_each = local.is_enabled ? { "example" = true } : {}
-#
-#   name                      = "example-queue-${random_string.random_text.result}"
-#   delay_seconds             = 90
-#   max_message_size          = 2048
-#   message_retention_seconds = 86400
-#   receive_wait_time_seconds = 10
-#
-#   tags = var.tags
-# }
-
-# Add additional resources below following the same structure.
-# Remember to use descriptive names and include comments explaining the purpose and configuration of each resource.

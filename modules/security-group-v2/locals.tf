@@ -4,21 +4,31 @@ locals {
   # ----------------------------------------------------
   #
   # These flags are used to enable or disable certain features.
-  # 1. `is_queue_enabled` - Flag to enable or disable the SQS queue that's built-in to the module.
-  # 2. `is_dlq_enabled` - Flag to enable or disable the Dead Letter Queue (DLQ) that's built-in to the module.
+  # 1. `is_enabled` - This flag is used to enable or disable the security group feature.
   #
   ###################################
-  is_enabled = var.is_enabled
+  is_enabled = var.is_enabled && var.security_group_config != null
 
   ###################################
   # Normalized & CLeaned Variables 🧹
   # ----------------------------------------------------
   #
   # These variables are used to normalize and clean the input variables.
-  # 1. `queue_name` - The name of the queue. This is normalized to remove any leading or trailing whitespace.
-  # 2. `queue_name_fifo` - The name of the FIFO queue. This is normalized to remove any leading or trailing whitespace.
-  # 3. `dlq_name` - The name of the Dead Letter Queue (DLQ). This is normalized to remove any leading or trailing whitespace.
-  # 4. `dlq_name_fifo` - The name of the FIFO Dead Letter Queue (DLQ). This is normalized to remove any leading or trailing whitespace.
+  # 1. `name` - The name of the security group. This logic: (substr(group.name, 0, 3) == "sg-") ? substr(group.name, 3) : group.name
+  #    is used to remove the `sg-` prefix from the security group name if it exists.
   #
   ###################################
+  sg_groups_normalised = local.is_enabled ? [
+    for group in [var.security_group_config] : {
+      name        = substr(group.name, 0, 3) == "sg-" ? substr(group.name, 3, length(group.name)-3) : group.name,
+      description = group.description != "" ? group.description : format("No description set for %s security group", group.name)
+      vpc_id      = group.vpc_id
+      ingress     = group.ingress != null ? group.ingress : []
+      egress      = group.egress != null ? group.egress : []
+    }
+  ] : []
+
+  sg_groups_to_create = {
+    for group in local.sg_groups_normalised : group["name"] => group
+  }
 }

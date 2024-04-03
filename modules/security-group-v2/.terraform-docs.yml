@@ -21,7 +21,7 @@ content: |-
 
     An example of multiple security groups, created at once:
     ```hcl
-    {{ include "../../examples/security-group/basic/config/fixtures-multiple-only-sg.tfvars" }}
+    {{ include "../../examples/security-group-v2/basic/config/fixtures-multiple-only-sg.tfvars" }}
     ```
     An example of a security group that's created passing its VPC, as the default VPC:
     ```hcl
