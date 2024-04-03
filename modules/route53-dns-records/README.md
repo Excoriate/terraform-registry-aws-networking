@@ -4,16 +4,16 @@
 
 This module create DNS records of its allowed types in a Route 53 hosted zone. Its current capabilities are:
 * 🚀 Create DNS records of the following types:
-* A
-* AAAA
-* CNAME
-* MX
-* NS
-* PTR
-* SOA
-* SPF
-* SRV
-* TXT
+    * A
+    * AAAA
+    * CNAME
+    * MX
+    * NS
+    * PTR
+    * SOA
+    * SPF
+    * SRV
+    * TXT
 For more information about this resource, see [DNS Records (Resource Record Sets)](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html) in the *Amazon Route 53 Developer Guide*.
 
 ---

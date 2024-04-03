@@ -19,7 +19,6 @@ module "main_module" {
   alb_config = var.alb_config
 }
 ```
-
 An example of multiple security groups, created at once:
 ```hcl
 aws_region = "us-east-1"
@@ -27,10 +26,10 @@ is_enabled = true
 
 alb_config = [
   {
-    name = "my-simple-alb"
+    name           = "test-alb"
+    subnets_public = ["subnet-0846305bebd4a81f7", "subnet-0779cabff259d1412"]
   }
 ]
-
 ```
 An example of multiple ALB created at once:
 ```hcl
@@ -45,7 +44,6 @@ alb_config = [
     name = "another-alb"
   }
 ]
-
 ```
 For module composition, It's recommended to take a look at the module's `outputs` to understand what's available:
 ```hcl
@@ -88,6 +86,11 @@ output "alb_zone_id" {
   value       = [for alb in aws_lb.this : alb.zone_id]
   description = "The canonical hosted zone ID of the ALB (to be used in a Route 53 Alias record)."
 }
+
+output "alb_name" {
+  value       = [for alb in aws_lb.this : alb.name]
+  description = "The name of the ALB."
+}
 ```
 ---
 
@@ -97,7 +100,7 @@ output "alb_zone_id" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.54.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.67.0 |
 
 ## Modules
 
@@ -132,6 +135,7 @@ No modules.
 | <a name="output_alb_arn"></a> [alb\_arn](#output\_alb\_arn) | The ARN of the ALB. |
 | <a name="output_alb_arn_suffix"></a> [alb\_arn\_suffix](#output\_alb\_arn\_suffix) | The ARN suffix for use with CloudWatch Metrics. |
 | <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | The DNS name of the ALB. |
+| <a name="output_alb_name"></a> [alb\_name](#output\_alb\_name) | The name of the ALB. |
 | <a name="output_alb_zone_id"></a> [alb\_zone\_id](#output\_alb\_zone\_id) | The canonical hosted zone ID of the ALB (to be used in a Route 53 Alias record). |
 | <a name="output_aws_region_for_deploy_this"></a> [aws\_region\_for\_deploy\_this](#output\_aws\_region\_for\_deploy\_this) | The AWS region where the module is deployed. |
 | <a name="output_is_enabled"></a> [is\_enabled](#output\_is\_enabled) | Whether the module is enabled or not. |

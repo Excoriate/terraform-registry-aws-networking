@@ -1,5 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
-# ☁️ AWS VPC modul
+# ☁️ AWS VPC module
 ## Description
 
 This module creates a VPC with the following resources:
