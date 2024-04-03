@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.2.0](https://github.com/Excoriate/terraform-registry-aws-networking/compare/v2.1.0...v2.2.0) (2024-04-03)
+
+
+### Features
+
+* Add AWS provider configuration and input variables ([#4](https://github.com/Excoriate/terraform-registry-aws-networking/issues/4)) ([47ac446](https://github.com/Excoriate/terraform-registry-aws-networking/commit/47ac44650d6e523f98d6df54e59fc924e6756274))
+* Add new security group configurations ([#6](https://github.com/Excoriate/terraform-registry-aws-networking/issues/6)) ([59711e9](https://github.com/Excoriate/terraform-registry-aws-networking/commit/59711e9ccc8a2432240eb20abda7610accdf013a))
+* Align code indentation in unit tests ([#2](https://github.com/Excoriate/terraform-registry-aws-networking/issues/2)) ([aacc3b4](https://github.com/Excoriate/terraform-registry-aws-networking/commit/aacc3b49e4126c1aed3e76b08b23f80f69d23c8b))
+* Update AWS VPC and Security Group module README ([#8](https://github.com/Excoriate/terraform-registry-aws-networking/issues/8)) ([334573c](https://github.com/Excoriate/terraform-registry-aws-networking/commit/334573cbc331e32c9d33e445935c4b6b4847c8ba))
+* Upgrade Go version to 1.22.1 and adjust module paths for unit and recipes tests. ([#5](https://github.com/Excoriate/terraform-registry-aws-networking/issues/5)) ([a409d8f](https://github.com/Excoriate/terraform-registry-aws-networking/commit/a409d8fd7a3d8d79c1544c916c70f043a6bb50bd))
+
 ## [2.1.0](https://github.com/Excoriate/terraform-registry-aws-networking/compare/v2.0.0...v2.1.0) (2023-05-23)
 
 
