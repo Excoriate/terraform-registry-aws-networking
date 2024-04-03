@@ -3,37 +3,32 @@ output "is_enabled" {
   description = "Whether the module is enabled or not."
 }
 
-output "aws_region_for_deploy_this" {
-  value       = module.main_module.aws_region_for_deploy_this
-  description = "The AWS region where the module is deployed."
+output "tags_set" {
+  value       = var.tags
+  description = "The tags set for the module."
 }
 
-/*
--------------------------------------
-Custom outputs
--------------------------------------
-*/
-output "sg_id" {
-  value       = module.main_module.sg_id
-  description = "The security groups that this module creates."
+output "security_group_id" {
+  value       = module.main_module.security_group_id
+  description = "The ID of the security group created by the module. Returns an empty string if the module is not enabled or no security group is created."
 }
 
-output "sg_arn" {
-  value       = module.main_module.sg_arn
-  description = "The ARNs of the security groups that this module creates."
+output "security_group_arn" {
+  value       = module.main_module.security_group_arn
+  description = "The ARN of the security group created by the module. Returns an empty string if the module is not enabled or no security group is created."
 }
 
-output "sg_name" {
-  value       = module.main_module.sg_name
-  description = "The names of the security groups that this module creates."
+output "security_group_name" {
+  value       = module.main_module.security_group_name
+  description = "The name of the security group created by the module. Returns an empty string if the module is not enabled or no security group is created."
 }
 
-output "sg_description" {
-  value       = module.main_module.sg_description
-  description = "The descriptions of the security groups that this module creates."
+output "security_group_description" {
+  value       = module.main_module.security_group_description
+  description = "The description of the security group created by the module. Returns an empty string if the module is not enabled or no security group is created."
 }
 
-output "sg_vpc_id" {
-  value       = module.main_module.sg_vpc_id
-  description = "The VPC IDs of the security groups that this module creates."
+output "security_group_vpc_id" {
+  value       = module.main_module.security_group_vpc_id
+  description = "The VPC ID associated with the security group created by the module. Returns an empty string if the module is not enabled or no security group is created."
 }

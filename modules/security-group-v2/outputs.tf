@@ -19,13 +19,27 @@ output "tags_set" {
 #
 ###################################
 
-# Example of a module-specific output:
-# output "queue_url" {
-#   value       = aws_sqs_queue.main.url
-#   description = "The URL of the created SQS queue."
-# }
+output "security_group_id" {
+  value       = local.is_enabled ? aws_security_group.this[try(keys(local.sg_groups_to_create)[0], "")].id : ""
+  description = "The ID of the security group created by the module. Returns an empty string if the module is not enabled or no security group is created."
+}
 
-# output "dlq_url" {
-#   value       = aws_sqs_queue.dlq.url
-#   description = "The URL of the created Dead Letter Queue (DLQ)."
-# }
+output "security_group_arn" {
+  value       = local.is_enabled ? aws_security_group.this[try(keys(local.sg_groups_to_create)[0], "")].arn : ""
+  description = "The ARN of the security group created by the module. Returns an empty string if the module is not enabled or no security group is created."
+}
+
+output "security_group_name" {
+  value       = local.is_enabled ? aws_security_group.this[try(keys(local.sg_groups_to_create)[0], "")].name : ""
+  description = "The name of the security group created by the module. Returns an empty string if the module is not enabled or no security group is created."
+}
+
+output "security_group_description" {
+  value       = local.is_enabled ? aws_security_group.this[try(keys(local.sg_groups_to_create)[0], "")].description : ""
+  description = "The description of the security group created by the module. Returns an empty string if the module is not enabled or no security group is created."
+}
+
+output "security_group_vpc_id" {
+  value       = local.is_enabled ? aws_security_group.this[try(keys(local.sg_groups_to_create)[0], "")].vpc_id : ""
+  description = "The VPC ID associated with the security group created by the module. Returns an empty string if the module is not enabled or no security group is created."
+}
