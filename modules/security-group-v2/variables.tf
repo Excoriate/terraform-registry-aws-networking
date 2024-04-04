@@ -27,7 +27,7 @@ variable "security_group_config" {
     name        = string
     description = optional(string, "Managed by Terraform")
     vpc_id      = string
-    ingress     = optional(list(object({
+    ingress = optional(list(object({
       description      = optional(string, "Ingress Rule")
       from_port        = number
       to_port          = number
@@ -38,7 +38,7 @@ variable "security_group_config" {
       security_groups  = optional(list(string), [])
       self             = optional(bool, false)
     })), [])
-    egress      = optional(list(object({
+    egress = optional(list(object({
       description      = optional(string, "Egress Rule")
       from_port        = number
       to_port          = number
@@ -72,4 +72,23 @@ variable "security_group_config" {
   For more details on defining security groups with Terraform, refer to the [Terraform AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group).
   DESC
   default     = null
+}
+
+variable "rds_ingress_security_group_rule" {
+  description = <<-DESC
+  Configuration for creating a built-in ingress security group rule for RDS DB access. This setting allows specifying
+  source security group IDs that are allowed access to the RDS instance.
+
+  - `db_port`: The database port for ingress access.
+  - `source_security_group_ids`: A list of source security group IDs that are allowed ingress to the RDS instance.
+
+  Note: Egress rules allowing all outbound traffic are commonly added by default for most security groups.
+  DESC
+
+  type = object({
+    db_port                   = number
+    source_security_group_ids = optional(list(string), [])
+  })
+
+  default = null
 }
