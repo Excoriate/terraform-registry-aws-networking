@@ -2,7 +2,7 @@ security_group_config = {
   name        = "sg-self-ref"
   description = "Security Group with a self-referencing rule"
   vpc_id      = "vpc-04eaef44d62c5b7a6"
-  ingress     = [
+  ingress = [
     {
       description = "Allow internal traffic"
       from_port   = 0

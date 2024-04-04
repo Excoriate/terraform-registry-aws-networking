@@ -3,110 +3,110 @@ formatter: markdown table
 
 header-from: main.tf
 content: |-
-  # ☁️ AWS Security Group Module
-  ## Description
-  This module allows for the streamlined creation and management of AWS Security Groups within a specified VPC. It supports detailed customization for both ingress and egress rules, ensuring a high degree of flexibility for network traffic management.
+    # ☁️ AWS Security Group Module
+    ## Description
+    This module allows for the streamlined creation and management of AWS Security Groups within a specified VPC. It supports detailed customization for both ingress and egress rules, ensuring a high degree of flexibility for network traffic management.
 
-  Key Features:
-  * 🚀 Creation of a security group within a specified VPC.
-  * 🛡️ Customizable ingress and egress rules to control traffic flow.
-  * 🔧 Optional descriptions for security groups and rules for easy management.
-  * 🌐 Support for both IPv4 and IPv6 CIDR blocks.
-  * 🔍 Automatic security group self-referencing capability.
+    Key Features:
+    * 🚀 Creation of a security group within a specified VPC.
+    * 🛡️ Customizable ingress and egress rules to control traffic flow.
+    * 🔧 Optional descriptions for security groups and rules for easy management.
+    * 🌐 Support for both IPv4 and IPv6 CIDR blocks.
+    * 🔍 Automatic security group self-referencing capability.
 
-  Learn more about AWS Security Groups in the [AWS Documentation](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html). For Terraform specifics, consult the [Terraform AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group).
+    Learn more about AWS Security Groups in the [AWS Documentation](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html). For Terraform specifics, consult the [Terraform AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group).
 
-  ---
-  ## Usage Examples
-  For practical examples on how to use this module, refer to the following configurations:
+    ---
+    ## Usage Examples
+    For practical examples on how to use this module, refer to the following configurations:
 
-  - **Basic Security Group**: Setup without ingress or egress rules.
-  ```hcl
-  module "basic_sg" {
-    source  = "../"
-    is_enabled = true
-    security_group_config = {
-      name        = "basic-sg"
-      description = "Basic Security Group without rules"
-      vpc_id      = "vpc-xxxxxx"
-      ingress     = []
-      egress      = []
+    - **Basic Security Group**: Setup without ingress or egress rules.
+    ```hcl
+    module "basic_sg" {
+      source  = "../"
+      is_enabled = true
+      security_group_config = {
+        name        = "basic-sg"
+        description = "Basic Security Group without rules"
+        vpc_id      = "vpc-xxxxxx"
+        ingress     = []
+        egress      = []
+      }
     }
-  }
-  ```
+    ```
 
-  - **Security Group with Custom Rules**: Demonstrates adding custom ingress and egress rules.
-  ```hcl
-  module "custom_sg" {
-    source  = "../"
-    is_enabled = true
-    security_group_config = {
-      name        = "custom-sg"
-      description = "Security Group with custom rules"
-      vpc_id      = "vpc-xxxxxx"
-      ingress = [
-        {
-          description      = "Allow SSH"
-          from_port        = 22
-          to_port          = 22
-          protocol         = "tcp"
-          cidr_blocks      = ["0.0.0.0/0"]
-        }
-      ]
-      egress = [
-        {
-          description      = "Allow all outbound"
-          from_port        = 0
-          to_port          = 0
-          protocol         = "-1"
-          cidr_blocks      = ["0.0.0.0/0"]
-        }
-      ]
+    - **Security Group with Custom Rules**: Demonstrates adding custom ingress and egress rules.
+    ```hcl
+    module "custom_sg" {
+      source  = "../"
+      is_enabled = true
+      security_group_config = {
+        name        = "custom-sg"
+        description = "Security Group with custom rules"
+        vpc_id      = "vpc-xxxxxx"
+        ingress = [
+          {
+            description      = "Allow SSH"
+            from_port        = 22
+            to_port          = 22
+            protocol         = "tcp"
+            cidr_blocks      = ["0.0.0.0/0"]
+          }
+        ]
+        egress = [
+          {
+            description      = "Allow all outbound"
+            from_port        = 0
+            to_port          = 0
+            protocol         = "-1"
+            cidr_blocks      = ["0.0.0.0/0"]
+          }
+        ]
+      }
     }
-  }
-  ```
+    ```
 
-  For more examples and module usage details, explore the [examples](../examples) directory.
-  ## Example implementation (or recipe)
-  ```hcl
-    {{ include "../../examples/security-group-v2/basic/main.tf" }}
-  ```
-  1. Complex configuration
-  ```hcl
-    {{ include "../../examples/security-group-v2/basic/fixtures/fixtures-ingress-and-egress.tfvars" }}
-  ```
+    For more examples and module usage details, explore the [examples](../examples) directory.
+    ## Example implementation (or recipe)
+    ```hcl
+      {{ include "../../examples/security-group-v2/basic/main.tf" }}
+    ```
+    1. Complex configuration
+    ```hcl
+      {{ include "../../examples/security-group-v2/basic/fixtures/fixtures-ingress-and-egress.tfvars" }}
+    ```
 
-  2. With self-referencing
-  ```hcl
-    {{ include "../../examples/security-group-v2/basic/fixtures/fixtures-self-reference.tfvars" }}
-  ```
-
+    2. With self-referencing
+    ```hcl
+      {{ include "../../examples/security-group-v2/basic/fixtures/fixtures-self-reference.tfvars" }}
+    ```
 
 
-  ---
 
-  ## Auto-Generated Module Documentation
-  Below is the documentation generated by [terraform-docs](https://terraform-docs.io), covering providers, resources, requirements, inputs, and outputs.
+    ---
 
-  {{ .Providers }}
+    ## Auto-Generated Module Documentation
+    Below is the documentation generated by [terraform-docs](https://terraform-docs.io), covering providers, resources, requirements, inputs, and outputs.
 
-  {{ .Modules }}
+    {{ .Providers }}
 
-  {{ .Resources }}
+    {{ .Modules }}
 
-  {{ .Requirements }}
+    {{ .Resources }}
 
-  {{ .Inputs }}
+    {{ .Requirements }}
 
-  {{ .Outputs }}
+    {{ .Inputs }}
+
+    {{ .Outputs }}
 
 output:
-  file: README.md
-  mode: inject
-  template: |-
-    <!-- BEGIN_TF_DOCS -->
-    {{ .Content }}
-    <!-- END_TF_DOCS -->
+    file: README.md
+    mode: inject
+    template: |-
+        <!-- BEGIN_TF_DOCS -->
+        {{ .Content }}
+        <!-- END_TF_DOCS -->
 settings:
-  anchor: true
-  color: true
+    anchor: true
+    color: true
